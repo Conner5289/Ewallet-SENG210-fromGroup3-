@@ -2,6 +2,8 @@ package org.ewallet;
 
 import java.awt.*;
 import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class EWalletApp extends GUI {
     //this is the app class, has the GUI and create one object of your expense calculator class. The expense calculator class is the implementation of the Expenser interface
@@ -23,9 +25,27 @@ public class EWalletApp extends GUI {
     }
 
     public void initialize() {
+        ExpenseCalculator expenseCalculator = new ExpenseCalculator();
 
+        User[] users = {
+            CreateUser("JohnDoe123", "password12345"),
+            CreateUser("JaneDoe456", "1111")
+        };
+
+        for (User user : users) {
+            expenseCalculator.setUser(user);
+            expenseCalculator.addExpense(new Expense("Groceries", 100, 1));
+            expenseCalculator.addMonthlyIncome(new Wage("Job", 1200, "January"));
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String userData = gson.toJson(users);
+        testLabel.setText(userData);
+        System.out.println(userData);
     }
 
     private ArrayList<User> AllData;
-    public void CreateUser(String username, String password) {}
+    public User CreateUser(String username, String password) {
+        return new User(username, password);
+    }
 }
