@@ -1,5 +1,11 @@
 package org.ewallet;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.PrintWriter;
+
 public class ExpenseCalculator implements IExpenseCalculator {
 
     private User userAtHand = null;
@@ -26,21 +32,66 @@ public class ExpenseCalculator implements IExpenseCalculator {
     }
 
     @Override
-    public void printFullReport() {
+    public void printFullReport(boolean pretty) {
         if (userAtHand == null)
             return;
+
+        Gson gson = new GsonBuilder().create();
+        String data = gson.toJson(userAtHand);
+        String filePath = "output/UserFullReport.txt";
+        File newFile = new File(filePath);
+        try {
+            if (newFile.createNewFile()) {
+                try (PrintWriter out = new PrintWriter(filePath)) {
+                    out.print(data);
+                }
+                System.out.println(data);
+            }
+        } catch (Exception ignored) {
+            System.out.println("Unable to print full report.");
+        }
     }
 
     @Override
-    public void PrintExpenseReport() {
+    public void printExpenseReport() {
         if (userAtHand == null)
             return;
+
+        Gson gson = new GsonBuilder().create();
+        String data = gson.toJson(userAtHand.getSpending().toArray());
+        String filePath = "output/UserExpenseReport.txt";
+        File newFile = new File(filePath);
+        try {
+            if (newFile.createNewFile()) {
+                try (PrintWriter out = new PrintWriter(filePath)) {
+                    out.print(data);
+                }
+                System.out.println(data);
+            }
+        } catch (Exception ignored) {
+            System.out.println("Unable to print expense report.");
+        }
     }
 
     @Override
     public void printIncomeReport() {
         if (userAtHand == null)
             return;
+
+        Gson gson = new GsonBuilder().create();
+        String data = gson.toJson(userAtHand.getIncome().toArray());
+        String filePath = "output/UserIncomeReport.txt";
+        File newFile = new File(filePath);
+        try {
+            if (newFile.createNewFile()) {
+                try (PrintWriter out = new PrintWriter(filePath)) {
+                    out.print(data);
+                }
+                System.out.println(data);
+            }
+        } catch (Exception ignored) {
+            System.out.println("Unable to print income report.");
+        }
     }
 
     @Override

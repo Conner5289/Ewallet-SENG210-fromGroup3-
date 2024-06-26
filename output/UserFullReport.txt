@@ -1,0 +1,1 @@
+{"currencyRates":[],"income":[{"source":"Job","amount":1200.0,"month":"January"}],"spending":[{"source":"Groceries","amount":100.0,"yearlyFrequency":1}],"username":"JaneDoe456","password":"1111","balance":0.0,"monthlySavings":0.0}

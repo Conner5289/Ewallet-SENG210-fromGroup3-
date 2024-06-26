@@ -16,4 +16,11 @@ public class Expense {
         this.amount = amount;
         this.yearlyFrequency = yearlyFrequency;
     }
+
+    public String getSource() { return source; }
+    public void setSource(String source) { this.source = source; }
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
+    public int getYearlyFrequency() { return yearlyFrequency; }
+    public void setYearlyFrequency(int yearlyFrequency) { this.yearlyFrequency = yearlyFrequency; }
 }

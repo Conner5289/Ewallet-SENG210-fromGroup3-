@@ -38,10 +38,9 @@ public class EWalletApp extends GUI {
             expenseCalculator.addMonthlyIncome(new Wage("Job", 1200, "January"));
         }
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String userData = gson.toJson(users);
-        testLabel.setText(userData);
-        System.out.println(userData);
+        expenseCalculator.printFullReport(false);
+        expenseCalculator.printExpenseReport();
+        expenseCalculator.printIncomeReport();
     }
 
     private ArrayList<User> AllData;
