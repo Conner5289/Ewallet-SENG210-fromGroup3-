@@ -31,7 +31,8 @@ public class EWalletApp extends GUI {
             CreateUser("JohnDoe123", "password12345"),
             CreateUser("JaneDoe456", "1111")
         };
-
+        
+      
         for (User user : users) {
             expenseCalculator.setUser(user);
             expenseCalculator.addExpense(new Expense("Groceries", 100, 1));
