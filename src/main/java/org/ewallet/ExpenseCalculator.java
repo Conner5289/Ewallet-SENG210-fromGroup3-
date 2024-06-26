@@ -171,7 +171,7 @@ public boolean loadExpenseFile(String ExReport) {
                      Wage wage = new Wage(source, amount, month);
                      userAtHand.addIncome(wage);
                  } else {
-                     
+                     // Invalid line format
                      return false;
                  }
              }
@@ -181,6 +181,7 @@ public boolean loadExpenseFile(String ExReport) {
              return false;
          }
     }
+
     @Override
     public int whenCanIBuy(String itemName, double price) {
         return 0;
