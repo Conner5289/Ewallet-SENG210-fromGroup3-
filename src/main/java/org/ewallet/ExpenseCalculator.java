@@ -126,60 +126,45 @@ public class ExpenseCalculator implements IExpenseCalculator {
     }
 
     @Override
-public boolean loadExpenseFile(String ExReport) {
-    	
-    	String ExpenseReport = "output/UserExpenseReport.txt";
+    public boolean loadExpenseFile(String ExReport) {
+    	String filepath1 = "output/UserExpenseReport.txt";
         if (userAtHand == null)
             return false;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(ExpenseReport))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 3) {
-                    String source = parts[0];
-                    double amount = Double.parseDouble(parts[1]);
-                    int yearlyFrequency = Integer.parseInt(parts[2]);
-                    Expense expense = new Expense(source, amount, yearlyFrequency);
-                    userAtHand.addExpense(expense);
-                } else {
-                    
-                    return false;
-                }
+        try (BufferedReader reader = new BufferedReader(new FileReader(filepath1))) {
+            Gson gson = new Gson();
+            Expense[] expenses = gson.fromJson(reader, Expense[].class); // Parse the entire file as an array of Expense objects
+
+            for (Expense expense : expenses) {
+                userAtHand.addExpense(expense); // Add each Expense object to the user
             }
+
             return true;
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
 
     @Override
-    public boolean loadIncomeFile(String InReport) {
-    	String IncomeReport = "output/UserIncomeReport.txt";
-    	 if (userAtHand == null)
-             return false;
+    public boolean loadIncomeFile(String inReport) {
+    	String filepath2 = "output/UserIncomeReport.txt";
+        if (userAtHand == null)
+            return false;
 
-         try (BufferedReader reader = new BufferedReader(new FileReader(IncomeReport))) {
-             String line;
-             while ((line = reader.readLine()) != null) {
-                 String[] parts = line.split(",");
-                 if (parts.length == 3) {
-                     String source = parts[0];
-                     double amount = Double.parseDouble(parts[1]);
-                     String month = parts[2];
-                     Wage wage = new Wage(source, amount, month);
-                     userAtHand.addIncome(wage);
-                 } else {
-                     // Invalid line format
-                     return false;
-                 }
-             }
-             return true;
-         } catch (IOException | NumberFormatException e) {
-             e.printStackTrace();
-             return false;
-         }
+        try (BufferedReader reader = new BufferedReader(new FileReader(filepath2 ))) {
+            Gson gson = new Gson();
+            Wage[] wages = gson.fromJson(reader, Wage[].class); // Parse the entire file as an array of Wage objects
+
+            for (Wage wage : wages) {
+                userAtHand.addIncome(wage); // Add each Wage object to the user
+            }
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
