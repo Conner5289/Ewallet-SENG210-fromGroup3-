@@ -5,21 +5,10 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class EWalletApp extends GUI {
+class EWallet {
     //this is the app class, has the GUI and create one object of your expense calculator class. The expense calculator class is the implementation of the Expenser interface
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                EWalletApp window = new EWalletApp();
-                window.frmEWalletApp.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public EWalletApp() {
+    public EWallet() {
         super();
         initialize();
     }
@@ -66,3 +55,21 @@ public class EWalletApp extends GUI {
         return new User(username, password);
     }
 }
+
+public class EWalletApp {
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GuiInterface frame = new GuiInterface();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+}
+
+
