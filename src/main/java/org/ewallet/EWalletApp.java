@@ -62,8 +62,8 @@ public class EWalletApp {
                 EventQueue.invokeLater(new Runnable() {
                         public void run() {
                                 try {
-                                        // GuiInterface frame = new GuiInterface();
-                                        // frame.setVisible(true);
+                                		GUI frame = new GUI();
+                                        frame.setVisible(true);
                                 } catch (Exception e) {
                                         e.printStackTrace();
                                 }
