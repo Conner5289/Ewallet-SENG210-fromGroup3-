@@ -1,1 +1,0 @@
-[{"source":"Groceries","amount":100.0,"yearlyFrequency":1}]
