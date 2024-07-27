@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: EWalletApp
 -- ------------------------------------------------------
--- Server version	8.4.2
+-- Server version 8.4.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,10 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+-- Create the EWalletApp database
+CREATE DATABASE IF NOT EXISTS EWalletApp;
+USE EWalletApp;
 
 --
 -- Table structure for table `expense`
@@ -27,10 +31,11 @@ CREATE TABLE `expense` (
   `userID` int unsigned DEFAULT NULL,
   `amount` float unsigned DEFAULT NULL,
   `date` date DEFAULT NULL,
+  `yearlyFrequency` int unsigned DEFAULT NULL,
   PRIMARY KEY (`expenseID`),
   KEY `userID` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET character_set_client = @saved_cs_client */;expenseexpenseexpenseexpenseID
 
 --
 -- Table structure for table `income`
@@ -42,29 +47,45 @@ DROP TABLE IF EXISTS `income`;
 CREATE TABLE `income` (
   `incomeID` int NOT NULL AUTO_INCREMENT,
   `userID` int DEFAULT NULL,
-  `amout` float DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `source` varchar(50) DEFAULT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`incomeID`),
   KEY `userID` (`userID`),
-  CONSTRAINT `income_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `userID` (`userID`)
+  CONSTRAINT `income_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `userID`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `userID`;
+DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `userID` (
+CREATE TABLE `users` (
   `userID` int NOT NULL AUTO_INCREMENT,
-  `FirstName` varchar(50) DEFAULT NULL,
-  `LastName` varchar(50) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`userID`),
   UNIQUE KEY `userID_UNIQUE` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+-- Insert data into `users` table
+INSERT INTO `users` (`username`, `password`) VALUES
+('admin', 'admin');
+
+-- Insert data into `income` table
+INSERT INTO `income` (`userID`, `amount`, `source`, `date`) VALUES
+(1, 5000.00, 'Salary', '2024-07-01'),
+(1, 200.00, 'Freelance', '2024-07-10');
+
+-- Insert data into `expense` table
+INSERT INTO `expense` (`userID`, `amount`, `date`, `yearlyFrequency`) VALUES
+(1, 100.00, '2024-07-05', 12),
+(1, 50.00, '2024-07-15', 0);
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
