@@ -2,8 +2,6 @@ package org.ewallet;
 
 import java.awt.*;
 import java.util.ArrayList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 class EWallet {
     //this is the app class, has the GUI and create one object of your expense calculator class. The expense calculator class is the implementation of the Expenser interface
