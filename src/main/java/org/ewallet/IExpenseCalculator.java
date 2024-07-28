@@ -3,9 +3,9 @@ package org.ewallet;
 public interface IExpenseCalculator {
     public void setUser(User user);
 
-    public void addExpense (Expense expense);
+    public void addExpense(Expense expense, String username);
 
-    public void addMonthlyIncome (Wage w);
+    public void addMonthlyIncome (Wage w, String username);
     // As a user I would like to view a detailed report of all expenses, income, and summary information
     //summary information include : total income, total income for each type, total income for each month, total expense, total expense for each type,
     //total savings (total income- total expenses) to date, if the total savings are less than zero it should be reported as total new debt.

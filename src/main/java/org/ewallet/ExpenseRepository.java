@@ -13,8 +13,6 @@ public class ExpenseRepository {
     public static void main(String[] args) {
         List<Expense> expenses = queryExpenseByUsername("admin");
         for (Expense expense : expenses) {
-            System.out.println("Expense ID: " + expense.getExpenseID());
-            System.out.println("User ID: " + expense.getUserID());
             System.out.println("Amount: " + expense.getAmount());
             System.out.println("Date: " + expense.getDate());
             System.out.println("Yearly Frequency: " + expense.getYearlyFrequency());
@@ -48,13 +46,11 @@ public class ExpenseRepository {
 
                 // Extract data from result set
                 while (rs.next()) {
-                    int expenseID = rs.getInt("expenseID");
-                    int userID = rs.getInt("userID");
                     float amount = rs.getFloat("amount");
                     Date date = rs.getDate("date");
                     int yearlyFrequency = rs.getInt("yearlyFrequency");
 
-                    Expense expense = new Expense(expenseID, userID, amount, date, yearlyFrequency);
+                    Expense expense = new Expense(amount, date, yearlyFrequency);
                     expenses.add(expense);
                 }
             }
@@ -74,7 +70,7 @@ public class ExpenseRepository {
         return expenses;
     }
     
-    public static boolean saveExpense(Expense expense) {
+    public static boolean saveExpense(Expense expense, String username) {
         connection dbConnection = new connection();
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -85,12 +81,19 @@ public class ExpenseRepository {
 
             if (conn != null) {
                 System.out.println("Connected to the database");
+                
+                int userID = UserRepository.getUserIdByUsername(username);
+                if (userID == -1) {
+                    System.out.println("User not found.");
+                    return false;
+                }
+
 
                 // SQL query to insert a new expense record into the expense table
                 String sql = "INSERT INTO expense (userID, amount, date, yearlyFrequency) VALUES (?, ?, ?, ?)";
 
                 pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, expense.getUserID());
+                pstmt.setInt(1, userID);
                 pstmt.setFloat(2, expense.getAmount());
                 pstmt.setDate(3, new java.sql.Date(expense.getDate().getTime()));
                 pstmt.setInt(4, expense.getYearlyFrequency());

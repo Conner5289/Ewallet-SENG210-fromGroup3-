@@ -1,7 +1,9 @@
 package org.ewallet;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UserRepository {
@@ -51,6 +53,46 @@ public class UserRepository {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public static int getUserIdByUsername(String username) {
+        connection dbConnection = new connection();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int userID = -1;
+
+        try {
+            conn = dbConnection.getConnection();
+
+            if (conn != null) {
+                System.out.println("Connected to the database");
+
+                String sql = "SELECT userID FROM users WHERE username = ?";
+                
+                pstmt = conn.prepareStatement(sql);
+                // By setting a string this way instead of directly we can Avoid SQL injection
+                pstmt.setString(1, username);
+
+                rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    userID = rs.getInt("userID");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return userID;
     }
 
 }
