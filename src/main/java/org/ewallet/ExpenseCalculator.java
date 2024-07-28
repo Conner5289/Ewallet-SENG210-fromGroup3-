@@ -8,6 +8,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class ExpenseCalculator implements IExpenseCalculator {
 
@@ -175,5 +181,59 @@ public class ExpenseCalculator implements IExpenseCalculator {
     @Override
     public void updateMonthlySavings() {
 
+    }
+    
+    @Override
+    public double calculateBalance(String username) {
+    	
+    	double totalWages = 0.0;
+        double totalExpenses = 0.0;
+    	
+    	// Question for professor, when I get a list which was initialized as an arrayList is it still an array list after it gets return and stored in a list.
+    	List<Wage> userWages = new ArrayList<>();
+    	userWages = WageRepository.queryWageByUsername(username);
+    	
+    	// Traversing the ArrayList to get the total amount of wages
+    	for (Wage wage : userWages) {
+    		
+    		totalWages += wage.getAmount();
+    	}
+    	
+    	List<Expense> userExpenses = new ArrayList<>();
+    	userExpenses = ExpenseRepository.queryExpenseByUsername(username);
+    	
+    	int daysInAYear = 365;
+    	
+    	
+    	for (Expense expense : userExpenses) {
+    		
+    		if (expense.getYearlyFrequency() == 0) {
+    			
+    			totalExpenses += expense.getAmount();
+    			
+    		}else {
+    			
+    			int numOfDaysBetweenExpense = daysInAYear / expense.getYearlyFrequency();
+    			
+    			// We need to convert the date variable to a local date one to use the ChronoUnit library
+    			Date startDate = expense.getDate();
+    			// Convert Date to LocalDate
+    	        LocalDate startDateAsLocalDate = startDate.toInstant()
+    	                                        .atZone(ZoneId.systemDefault())
+    	                                        .toLocalDate();
+    	        
+    			LocalDate todayDate = LocalDate.now();
+    			
+    			// Calculate the number of days between the two dates
+    	        int daysElapseSinceInitalExpense = (int) ChronoUnit.DAYS.between(startDateAsLocalDate, todayDate);
+    			
+    			int numOfPaymentsMade = daysElapseSinceInitalExpense / numOfDaysBetweenExpense;
+    			
+    			totalExpenses += (numOfPaymentsMade * expense.getAmount());
+    		}
+    	}
+    	
+
+		return totalWages - totalExpenses;
     }
 }

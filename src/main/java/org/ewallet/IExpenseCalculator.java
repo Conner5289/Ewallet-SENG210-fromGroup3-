@@ -30,4 +30,6 @@ public interface IExpenseCalculator {
     public int whenCanIBuy(String itemName, double price);
     // updates monthly savings based on latest added income and expenses. This is an internal function not called by the users.  Bonus: what is the most efficient way to call it (when?)?
     public void updateMonthlySavings();
+
+	double calculateBalance(String username);
 }
