@@ -3,43 +3,18 @@ package org.ewallet;
 import java.util.Date;
 
 public class Wage {
-    private int incomeID;
-    private int userID;
-    private float amount;
+    private double amount;
     private String source;
     private Date date;
 
     // Constructor
-    public Wage(int incomeID, int userID, float amount, String source, Date date) {
-        this.incomeID = incomeID;
-        this.userID = userID;
+    public Wage(double amount, String source, Date date) {
         this.amount = amount;
         this.source = source;
         this.date = date;
     }
 
-    public Wage(String string, int i, String string2) {
-		// TODO Auto-generated constructor stub
-	}
-
-	// Getters and Setters
-    public int getIncomeID() {
-        return incomeID;
-    }
-
-    public void setIncomeID(int incomeID) {
-        this.incomeID = incomeID;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 

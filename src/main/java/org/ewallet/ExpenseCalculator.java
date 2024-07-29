@@ -25,19 +25,17 @@ public class ExpenseCalculator implements IExpenseCalculator {
     }
 
     @Override
-    public void addExpense(Expense expense) {
-        if (userAtHand == null)
-            return;
+    public void addExpense(Expense expense, String username) {
 
-        userAtHand.addExpense(expense);
+        ExpenseRepository.saveExpense(expense, username);
     }
 
     @Override
-    public void addMonthlyIncome(Wage w) {
+    public void addMonthlyIncome(Wage w, String username) {
         if (userAtHand == null)
             return;
 
-        userAtHand.addIncome(w);
+        WageRepository.saveWage(w, username);
     }
 
     @Override

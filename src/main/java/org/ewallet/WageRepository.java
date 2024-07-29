@@ -11,10 +11,22 @@ import java.util.List;
 public class WageRepository {
 
     public static void main(String[] args) {
-        List<Wage> wages = queryWageByUsername("admin");
-        for (Wage wage : wages) {
-            System.out.println("Income ID: " + wage.getIncomeID());
-            System.out.println("User ID: " + wage.getUserID());
+        List<Wage> wagesBeforeAddition = queryWageByUsername("admin");
+        System.out.println("Expenses Before Addition: ");
+        for (Wage wage : wagesBeforeAddition) {
+            System.out.println("Amount: " + wage.getAmount());
+            System.out.println("Source: " + wage.getSource());
+            System.out.println("Date: " + wage.getDate());
+        }
+        
+        // Saving expense Example
+        // new Date() Gives us a variable with the current date
+        Wage newWage = new Wage(100.0, "YouTube Streaming", new Date()); 
+        saveWage(newWage, "admin");
+        
+        List<Wage> wagesAfterAddition = queryWageByUsername("admin");
+        System.out.println("Expenses Before Addition: ");
+        for (Wage wage : wagesAfterAddition) {
             System.out.println("Amount: " + wage.getAmount());
             System.out.println("Source: " + wage.getSource());
             System.out.println("Date: " + wage.getDate());
@@ -41,19 +53,18 @@ public class WageRepository {
                            + "WHERE users.username = ?";
                 
                 pstmt = conn.prepareStatement(sql);
+                // By setting a string this way instead of directly we can Avoid SQL injection
                 pstmt.setString(1, username);
 
                 rs = pstmt.executeQuery();
 
                 // Extract data from result set
                 while (rs.next()) {
-                    int incomeID = rs.getInt("incomeID");
-                    int userID = rs.getInt("userID");
-                    float amount = rs.getFloat("amount");
+                    double amount = rs.getDouble("amount");
                     String source = rs.getString("source");
                     Date date = rs.getDate("date");
 
-                    Wage wage = new Wage(incomeID, userID, amount, source, date);
+                    Wage wage = new Wage(amount, source, date);
                     wages.add(wage);
                 }
             }
@@ -73,7 +84,9 @@ public class WageRepository {
         return wages;
     }
     
-    public static boolean saveWage(Wage wage) {
+    
+
+    public static boolean saveWage(Wage wage, String username) {
         connection dbConnection = new connection();
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -85,24 +98,27 @@ public class WageRepository {
             if (conn != null) {
                 System.out.println("Connected to the database");
 
-                // SQL query to insert a new wage record into the income table
+                int userID = UserRepository.getUserIdByUsername(username);
+                if (userID == -1) {
+                    System.out.println("User not found.");
+                    return false;
+                }
+
                 String sql = "INSERT INTO income (userID, amount, source, date) VALUES (?, ?, ?, ?)";
 
                 pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, wage.getUserID());
-                pstmt.setFloat(2, wage.getAmount());
+                // By setting a string this way instead of directly we can Avoid SQL injection
+                pstmt.setInt(1, userID);
+                pstmt.setDouble(2, wage.getAmount());
                 pstmt.setString(3, wage.getSource());
                 pstmt.setDate(4, new java.sql.Date(wage.getDate().getTime()));
 
-                // Execute the insert
                 int rowsAffected = pstmt.executeUpdate();
-                // Check if the number of rows affected is greater than zero
                 isSaved = (rowsAffected > 0);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Close resources
             try {
                 if (pstmt != null) pstmt.close();
                 if (conn != null) conn.close();

@@ -40,8 +40,8 @@ class EWallet {
                                 System.out.println("Failed to load incomes for user: " + user.getUsername());
                         }
 
-                        expenseCalculator.addExpense(new Expense("Groceries", 100, 1));
-                        expenseCalculator.addMonthlyIncome(new Wage("Job", 1200, "January"));
+                        //expenseCalculator.addExpense(new Expense("Groceries", 100, 1));
+                        //expenseCalculator.addMonthlyIncome(new Wage("Job", 1200, "January"));
                 }
 
                 expenseCalculator.printFullReport(false);

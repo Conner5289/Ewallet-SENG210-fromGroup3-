@@ -29,13 +29,13 @@ DROP TABLE IF EXISTS `expense`;
 CREATE TABLE `expense` (
   `expenseID` int unsigned NOT NULL AUTO_INCREMENT,
   `userID` int unsigned DEFAULT NULL,
-  `amount` float unsigned DEFAULT NULL,
+  `amount` double unsigned DEFAULT NULL,
   `date` date DEFAULT NULL,
   `yearlyFrequency` int unsigned DEFAULT NULL,
   PRIMARY KEY (`expenseID`),
   KEY `userID` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;expenseexpenseexpenseexpenseID
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `income`
@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `income`;
 CREATE TABLE `income` (
   `incomeID` int NOT NULL AUTO_INCREMENT,
   `userID` int DEFAULT NULL,
-  `amount` float DEFAULT NULL,
+  `amount` double DEFAULT NULL,
   `source` varchar(50) DEFAULT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`incomeID`),
