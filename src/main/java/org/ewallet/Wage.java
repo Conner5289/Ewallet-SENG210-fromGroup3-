@@ -3,18 +3,18 @@ package org.ewallet;
 import java.util.Date;
 
 public class Wage {
-    private float amount;
+    private double amount;
     private String source;
     private Date date;
 
     // Constructor
-    public Wage(float amount, String source, Date date) {
+    public Wage(double amount, String source, Date date) {
         this.amount = amount;
         this.source = source;
         this.date = date;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 

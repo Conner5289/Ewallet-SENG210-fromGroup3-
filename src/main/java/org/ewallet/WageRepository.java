@@ -11,8 +11,22 @@ import java.util.List;
 public class WageRepository {
 
     public static void main(String[] args) {
-        List<Wage> wages = queryWageByUsername("admin");
-        for (Wage wage : wages) {
+        List<Wage> wagesBeforeAddition = queryWageByUsername("admin");
+        System.out.println("Expenses Before Addition: ");
+        for (Wage wage : wagesBeforeAddition) {
+            System.out.println("Amount: " + wage.getAmount());
+            System.out.println("Source: " + wage.getSource());
+            System.out.println("Date: " + wage.getDate());
+        }
+        
+        // Saving expense Example
+        // new Date() Gives us a variable with the current date
+        Wage newWage = new Wage(100.0, "YouTube Streaming", new Date()); 
+        saveWage(newWage, "admin");
+        
+        List<Wage> wagesAfterAddition = queryWageByUsername("admin");
+        System.out.println("Expenses Before Addition: ");
+        for (Wage wage : wagesAfterAddition) {
             System.out.println("Amount: " + wage.getAmount());
             System.out.println("Source: " + wage.getSource());
             System.out.println("Date: " + wage.getDate());
@@ -46,7 +60,7 @@ public class WageRepository {
 
                 // Extract data from result set
                 while (rs.next()) {
-                    float amount = rs.getFloat("amount");
+                    double amount = rs.getDouble("amount");
                     String source = rs.getString("source");
                     Date date = rs.getDate("date");
 
@@ -95,7 +109,7 @@ public class WageRepository {
                 pstmt = conn.prepareStatement(sql);
                 // By setting a string this way instead of directly we can Avoid SQL injection
                 pstmt.setInt(1, userID);
-                pstmt.setFloat(2, wage.getAmount());
+                pstmt.setDouble(2, wage.getAmount());
                 pstmt.setString(3, wage.getSource());
                 pstmt.setDate(4, new java.sql.Date(wage.getDate().getTime()));
 

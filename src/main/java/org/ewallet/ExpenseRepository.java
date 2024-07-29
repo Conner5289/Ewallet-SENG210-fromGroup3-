@@ -11,12 +11,27 @@ import java.util.List;
 public class ExpenseRepository {
 
     public static void main(String[] args) {
-        List<Expense> expenses = queryExpenseByUsername("admin");
-        for (Expense expense : expenses) {
+        List<Expense> expensesBeforeAddition = queryExpenseByUsername("admin");
+        System.out.println("Expenses Before Addition: ");
+        for (Expense expense : expensesBeforeAddition) {
             System.out.println("Amount: " + expense.getAmount());
             System.out.println("Date: " + expense.getDate());
             System.out.println("Yearly Frequency: " + expense.getYearlyFrequency());
         }
+        
+        // Saving expense Example
+        // new Date() Gives us a variable with the current date
+        Expense newExpense = new Expense(100.0, new Date(), 1); 
+        saveExpense(newExpense, "admin");
+        
+        List<Expense> expensesAfterAddition = queryExpenseByUsername("admin");
+        System.out.println("Expenses After Addition: ");
+        for (Expense expense : expensesAfterAddition) {
+            System.out.println("Amount: " + expense.getAmount());
+            System.out.println("Date: " + expense.getDate());
+            System.out.println("Yearly Frequency: " + expense.getYearlyFrequency());
+        }
+
     }
     
     // Getting all user expenses
@@ -46,7 +61,7 @@ public class ExpenseRepository {
 
                 // Extract data from result set
                 while (rs.next()) {
-                    float amount = rs.getFloat("amount");
+                	double amount = rs.getFloat("amount");
                     Date date = rs.getDate("date");
                     int yearlyFrequency = rs.getInt("yearlyFrequency");
 
@@ -94,7 +109,7 @@ public class ExpenseRepository {
 
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, userID);
-                pstmt.setFloat(2, expense.getAmount());
+                pstmt.setDouble(2, expense.getAmount());
                 pstmt.setDate(3, new java.sql.Date(expense.getDate().getTime()));
                 pstmt.setInt(4, expense.getYearlyFrequency());
 
