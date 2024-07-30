@@ -174,9 +174,18 @@ public class ExpenseCalculator implements IExpenseCalculator {
     @Override
     public int whenCanIBuy(double price, String username) {
     	
-    	//double currentMonthSavings = updateMonthlySavings(username);
-
-        return 0;
+    	double currentMonthSavings = updateMonthlySavings(username);
+    	
+    	// if their is no remainder return the exact number of months.
+    	if (price % currentMonthSavings == 0) {
+    		
+    		return (int) (price / currentMonthSavings);
+    		
+    	}else {
+    	// if their is a remainder return a how many current savings fit in the price and 
+    	// add a one as the reminder get cut out when we are trying to get an Integer that represents the months. 
+    		return (int) (price / currentMonthSavings + 1);
+    	} 
     }
 
     @Override
