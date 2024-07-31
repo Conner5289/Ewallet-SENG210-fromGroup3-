@@ -2,6 +2,8 @@ package org.ewallet;
 
 import java.awt.EventQueue;
 import java.io.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 
@@ -47,6 +50,9 @@ public class GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GUI() {
+
+		Wage temp = new Wage(100.00);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1102, 646);
 		contentPane = new JPanel();
@@ -128,17 +134,22 @@ public class GUI extends JFrame {
 		lblSavings.setBounds(276, 93, 124, 33);
 		contentPane.add(lblSavings);
 
+		// Bal
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setBounds(74, 121, 147, 38);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
+		textField.setText("100.0");
+
+		// save
 		textField_1 = new JTextField();
 		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		textField_1.setBounds(266, 121, 147, 38);
 		contentPane.add(textField_1);
+		textField_1.setText("100.0");
 
 		JLabel lblAddExpence = new JLabel("Add Expence:");
 		lblAddExpence.setHorizontalAlignment(SwingConstants.CENTER);
@@ -221,7 +232,27 @@ public class GUI extends JFrame {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "USD", "CAD" }));
 		comboBox.setToolTipText("");
 		comboBox.setBounds(819, 16, 29, 21);
+		comboBox.setSize(60, 25);
 		contentPane.add(comboBox);
+
+		comboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Bal
+				String dollar = (String) comboBox.getSelectedItem();
+				if (dollar.equals("CAD")) {
+					double cadAmout = temp.getAmount() * 1.38;
+					textField.setText(Double.toString(cadAmout));
+					textField_1.setText(Double.toString(cadAmout));
+
+				} else {
+					double usdAmout = temp.getAmount();
+					textField.setText(Double.toString(usdAmout));
+					textField_1.setText(Double.toString(usdAmout));
+				}
+
+			}
+		});
 
 		JLabel lblCurrency = new JLabel("Currency:");
 		lblCurrency.setHorizontalAlignment(SwingConstants.CENTER);
