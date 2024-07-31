@@ -172,13 +172,55 @@ public class ExpenseCalculator implements IExpenseCalculator {
     }
 
     @Override
-    public int whenCanIBuy(String itemName, double price) {
+    public int whenCanIBuy(double price, String username) {
+    	
+    	//double currentMonthSavings = updateMonthlySavings(username);
+
         return 0;
     }
 
     @Override
-    public void updateMonthlySavings() {
-
+    public double updateMonthlySavings(String username) {
+    	
+    	double totalMonthWage = 0.0;
+        double totalMonthExpenses = 0.0;
+        // Get the current month
+        int currentMonth = LocalDate.now().getMonthValue();
+        int currentYear = LocalDate.now().getYear();
+        
+        List<Wage> userWages = new ArrayList<>();
+    	userWages = WageRepository.queryWageByUsername(username);
+    	
+    			
+    	for (Wage wage : userWages) {
+    		
+    		// Converting date variable to local date to extract month value
+    		int wageMonth = wage.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().getMonthValue();
+    		int wageYear = wage.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().getYear();
+    		
+    		if (wageMonth == currentMonth & wageYear == currentYear) {
+    			
+    			totalMonthWage += wage.getAmount();
+    		}
+    	}
+    	
+    	
+    	List<Expense> userExpenses = new ArrayList<>();
+    	userExpenses = ExpenseRepository.queryExpenseByUsername(username);
+    	
+    	for (Expense Expense : userExpenses) {
+    		
+    		// Converting date variable to local date to extract month value
+    		int wageMonth = Expense.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().getMonthValue();
+    		int wageYear = Expense.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().getYear();
+    		
+    		if (wageMonth == currentMonth & wageYear == currentYear) {
+    			
+    			totalMonthExpenses += Expense.getAmount();
+    		}
+    	}
+    	
+    	return totalMonthWage - totalMonthExpenses;
     }
     
     @Override
