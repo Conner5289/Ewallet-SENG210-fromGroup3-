@@ -2,8 +2,10 @@ package org.ewallet;
 
 import java.awt.EventQueue;
 import java.io.*;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
@@ -89,7 +92,6 @@ public class GUI extends JFrame {
 			}
 		});
 
-		// Income
 		btnImportIncome.addActionListener(e -> {
 			JFileChooser chooser = new JFileChooser();
 			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
