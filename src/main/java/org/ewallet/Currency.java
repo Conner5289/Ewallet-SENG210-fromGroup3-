@@ -4,7 +4,7 @@ public class Currency {
     public double amount;
     public CurrencyType type;
 
-    public static final float[] toUSDValue = new float[]{ // Values last updated: 6/22/24
+    public static final float[] toUSDValue = new float[] { // Values last updated: 6/22/24
             1.0f,
             0.93f,
             159.78f,

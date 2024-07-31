@@ -8,6 +8,12 @@ public class Wage {
     private Date date;
 
     // Constructor
+
+    public Wage(double amount) {
+        // Just a temp constructor
+        this.amount = amount;
+    }
+
     public Wage(double amount, String source, Date date) {
         this.amount = amount;
         this.source = source;
