@@ -1,16 +1,20 @@
 package org.ewallet;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.util.Date;
 
 public class GUI extends JFrame {
 
@@ -24,6 +28,8 @@ public class GUI extends JFrame {
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
+	
+	private ExpenseCalculator expenseCalculator;
 
 	/**
 	 * Launch the application.
@@ -65,15 +71,43 @@ public class GUI extends JFrame {
 		btnExportCsv.setBounds(943, 126, 135, 33);
 		contentPane.add(btnExportCsv);
 		
+		
 		JButton btnIncomeReport = new JButton("Income Report");
+		btnIncomeReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//expenseCalculator.printIncomeReport();
+				JOptionPane.showMessageDialog(null, "Income Report!");
+			}
+		});
+		
 		btnIncomeReport.setBounds(943, 192, 135, 33);
 		contentPane.add(btnIncomeReport);
 		
+		
 		JButton btnExpenseReport = new JButton("Expense Report");
+		btnExpenseReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//expenseCalculator.printExpenseReport();
+				JOptionPane.showMessageDialog(null, "Expense Report!");
+			}
+		});
+		
 		btnExpenseReport.setBounds(943, 235, 135, 33);
 		contentPane.add(btnExpenseReport);
 		
+		
 		JButton btnFullReport = new JButton("Full Report");
+		btnFullReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//expenseCalculator.printFullReport();
+				JOptionPane.showMessageDialog(null, "Full Report!");
+				
+			}
+		});
+		
 		btnFullReport.setBounds(943, 298, 135, 33);
 		contentPane.add(btnFullReport);
 		

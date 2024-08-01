@@ -57,6 +57,8 @@ public class ExpenseCalculator implements IExpenseCalculator {
         } catch (Exception ignored) {
             System.out.println("Unable to print full report.");
         }
+        
+        printSummaryReport();
     }
 
     @Override
@@ -78,6 +80,8 @@ public class ExpenseCalculator implements IExpenseCalculator {
         } catch (Exception ignored) {
             System.out.println("Unable to print expense report.");
         }
+        
+        printExpenseSummary();
     }
 
     @Override
@@ -99,6 +103,8 @@ public class ExpenseCalculator implements IExpenseCalculator {
         } catch (Exception ignored) {
             System.out.println("Unable to print income report.");
         }
+        
+        printIncomeSummary();
     }
 
     @Override
@@ -234,4 +240,33 @@ public class ExpenseCalculator implements IExpenseCalculator {
 
 		return totalWages - totalExpenses;
     }
+    
+    private void printSummaryReport() {
+    	
+    	double totalIncome = userAtHand.getIncome().stream().mapToDouble(Wage::getAmount).sum();
+    	double totalExpenses = userAtHand.getSpending().stream().mapToDouble(Expense::getAmount).sum();
+    	double savings = totalIncome - totalExpenses;
+    	
+    	System.out.println("Summary Report:");
+    	System.out.println("Total Income: " + totalIncome);
+    	System.out.println("Total Expenses: " + totalExpenses);
+    	System.out.println("Total Savings: " + savings);
+    }
+    
+    private void printExpenseSummary() {
+    	
+    	double totalExpenses = userAtHand.getSpending().stream().mapToDouble(Expense::getAmount).sum();
+    	
+    	System.out.println("Expense Summary:");
+    	System.out.println("Total Expenses: " + totalExpenses);
+    }
+    
+    private void printIncomeSummary() {
+    	
+    	double totalIncome = userAtHand.getIncome().stream().mapToDouble(Wage::getAmount).sum();
+    	
+    	System.out.println("Expense Summary:");
+    	System.out.println("Total Income: " + totalIncome);
+    }
+    
 }

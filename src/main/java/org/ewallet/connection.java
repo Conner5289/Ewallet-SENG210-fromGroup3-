@@ -5,7 +5,7 @@ import java.sql.*;
 public class connection {
     private String dbUrl = "jdbc:mysql://localhost:3307/EWalletApp";
     private String user = "root";
-    private String password = "92348mexico";
+    private String password = "";
 
     public connection() {
         // Constructor can remain empty or print a message if needed
