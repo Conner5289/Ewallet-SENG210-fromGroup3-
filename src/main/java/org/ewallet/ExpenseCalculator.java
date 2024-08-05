@@ -8,9 +8,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class ExpenseCalculator implements IExpenseCalculator {
-
+	
     private User userAtHand = null;
 
     @Override
@@ -19,19 +28,17 @@ public class ExpenseCalculator implements IExpenseCalculator {
     }
 
     @Override
-    public void addExpense(Expense expense) {
-        if (userAtHand == null)
-            return;
+    public void addExpense(Expense expense, String username) {
 
-        userAtHand.addExpense(expense);
+        ExpenseRepository.saveExpense(expense, username);
     }
 
     @Override
-    public void addMonthlyIncome(Wage w) {
+    public void addMonthlyIncome(Wage w, String username) {
         if (userAtHand == null)
             return;
 
-        userAtHand.addIncome(w);
+        WageRepository.saveWage(w, username);
     }
 
     @Override
@@ -168,12 +175,133 @@ public class ExpenseCalculator implements IExpenseCalculator {
     }
 
     @Override
-    public int whenCanIBuy(String itemName, double price) {
-        return 0;
+    public int whenCanIBuy(double price, String username) {
+    	
+    	double currentMonthSavings = updateMonthlySavings(username);
+    	
+    	// if their is no remainder return the exact number of months.
+    	if (price % currentMonthSavings == 0) {
+    		
+    		return (int) (price / currentMonthSavings);
+    		
+    	}else {
+    	// if their is a remainder return a how many current savings fit in the price and 
+    	// add a one as the reminder get cut out when we are trying to get an Integer that represents the months. 
+    		return (int) (price / currentMonthSavings + 1);
+    	} 
     }
 
     @Override
-    public void updateMonthlySavings() {
+    public double updateMonthlySavings(String username) {
+    	
+    	double totalMonthWage = 0.0;
+        double totalMonthExpenses = 0.0;
+        // Get the current month
+        int currentMonth = LocalDate.now().getMonthValue();
+        int currentYear = LocalDate.now().getYear();
+        
+        List<Wage> userWages = new ArrayList<>();
+    	userWages = WageRepository.queryWageByUsername(username);
+    	
+    			
+    	for (Wage wage : userWages) {
+    		
+    		// Converting date variable to local date to extract month value
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(wage.getDate());
+            
+            int wageMonth = calendar.get(Calendar.MONTH) + 1; // +1 to adjust for human-readable format
+            int wageYear = calendar.get(Calendar.YEAR);
+            
+    		if (wageMonth == currentMonth && wageYear == currentYear) {
+    			
+    			totalMonthWage += wage.getAmount();
+    		}
+    	}
+    	
+    	
+    	List<Expense> userExpenses = new ArrayList<>();
+    	userExpenses = ExpenseRepository.queryExpenseByUsername(username);
+    	
+    	for (Expense expense : userExpenses) {
+    		
+    		// Converting date variable to local date to extract month value
+    		 Calendar calendar = Calendar.getInstance();
+             calendar.setTime(expense.getDate());
+            
+             int expenseMonth = calendar.get(Calendar.MONTH) + 1; // +1 to adjust for human-readable format
+             int expenseYear = calendar.get(Calendar.YEAR);
+            
+    		
+    		if (expenseMonth == currentMonth && expenseYear == currentYear) {
+    			
+    			totalMonthExpenses += expense.getAmount();
+    		}
+    	}
+    	
+    	return totalMonthWage - totalMonthExpenses;
+    }
+    
+    @Override
+    public double calculateBalance(String username) {
+    	
+    	double totalWages = 0.0;
+        double totalExpenses = 0.0;
+    	int daysInAYear = 365;
+    	
+    	// Question for professor, when I get a list which was initialized as an arrayList is it still an array list after it gets return and stored in a list.
+    	List<Wage> userWages = new ArrayList<>(WageRepository.queryWageByUsername(username));
+    	List<Expense> userExpenses = new ArrayList<>(ExpenseRepository.queryExpenseByUsername(username));
+    	
+    	
+    	// Traversing the ArrayList to get the total amount of wages
+    	for (Wage wage : userWages) {
+    		
+    		totalWages += wage.getAmount();
+    	}
+    	
+    	for (Expense expense : userExpenses) {
+    		
+    		if (expense.getYearlyFrequency() == 0) {
+    			
+    			totalExpenses += expense.getAmount();
+    			
+    		}else {
+    			
+    			int numOfDaysBetweenExpense = daysInAYear / expense.getYearlyFrequency();
+    			
+    			// We need to convert the date variable to a local date one 
+    			Date input = new Date();
+    			Instant instant = input.toInstant();
+    			ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+    			LocalDate date = zdt.toLocalDate();
+    	        
+    			LocalDate todayDate = LocalDate.now();
+    			
+    			// Calculate the number of days between the two dates
+    	        int daysElapseSinceInitalExpense = (int) ChronoUnit.DAYS.between(date, todayDate);
+    			
+    			int numOfPaymentsMade = daysElapseSinceInitalExpense / numOfDaysBetweenExpense;
+    			
+    			totalExpenses += (numOfPaymentsMade * expense.getAmount());
+    		}
+    	}
+    	
 
+		return totalWages - totalExpenses;
+    }
+    
+    public static void main(String[] args) {
+    	 ExpenseCalculator calculator = new ExpenseCalculator();
+
+        double balance = calculator.calculateBalance("admin");
+        System.out.println("Balance: " + balance);
+        
+        double savings = calculator.updateMonthlySavings("admin");
+        System.out.println("Monthly Savings: " + savings);
+
+        int months = calculator.whenCanIBuy(9000, "admin");
+        System.out.println("Months to buy item worth $5000: " + months);
     }
 }
+

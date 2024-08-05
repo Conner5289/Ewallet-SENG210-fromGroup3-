@@ -1,26 +1,39 @@
 package org.ewallet;
 
+import java.util.Date;
+
 public class Expense {
-    String source;
-    double amount;
-    int yearlyFrequency; // 1 for 1 time or once a year, 12 for monthly or 24 for biweekly
+    private double amount;
+    private Date date;
+    private int yearlyFrequency; // 1 for 1 time or once a year, 12 for monthly or 24 for biweekly
 
-    public Expense() {
-        source = "";
-        amount = 0;
-        yearlyFrequency = 0;
-    }
-
-    public Expense(String source, double amount, int yearlyFrequency) {
-        this.source = source;
+    public Expense(double amount, Date date, int yearlyFrequency) {
         this.amount = amount;
+        this.date = date;
         this.yearlyFrequency = yearlyFrequency;
     }
 
-    public String getSource() { return source; }
-    public void setSource(String source) { this.source = source; }
-    public double getAmount() { return amount; }
-    public void setAmount(double amount) { this.amount = amount; }
-    public int getYearlyFrequency() { return yearlyFrequency; }
-    public void setYearlyFrequency(int yearlyFrequency) { this.yearlyFrequency = yearlyFrequency; }
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getYearlyFrequency() {
+        return yearlyFrequency;
+    }
+
+    public void setYearlyFrequency(int yearlyFrequency) {
+        this.yearlyFrequency = yearlyFrequency;
+    }
 }
