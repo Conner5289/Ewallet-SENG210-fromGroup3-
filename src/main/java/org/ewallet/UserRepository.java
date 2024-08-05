@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserRepository {
 	
@@ -12,10 +14,12 @@ public class UserRepository {
         queryAllUsers();
     }
 
-    public static void queryAllUsers() {
+	public static List<String[]> queryAllUsers() {
         connection dbConnection = new connection();
         Connection conn = null;
         Statement stmt = null;
+        // Using an ArrayList to auto size array and fast retrieval
+        List<String[]> users = new ArrayList<>();
 
         try {
             conn = dbConnection.getConnection();
@@ -31,10 +35,15 @@ public class UserRepository {
                 // Extract data from result set
                 while (rs.next()) {
                     // Retrieve by column name
-                    String name = rs.getString("username");
+                    String username = rs.getString("username");
+                    String password = rs.getString("password");
+
+                    // Add to the list
+                    users.add(new String[]{username, password});
 
                     // Display values
-                    System.out.print(", Name: " + name);
+                    System.out.println("username: " + username);
+                    System.out.println("password: " + password);
                 }
 
                 // Clean-up environment
@@ -53,6 +62,20 @@ public class UserRepository {
                 e.printStackTrace();
             }
         }
+        
+        return users;
+    }
+
+    public static boolean Authentication(String username, String password) {
+        List<String[]> users = queryAllUsers();
+
+        for (String[] user : users) {
+            if (user[0].equals(username) && user[1].equals(password)) {
+                return true;
+            }
+        }
+
+        return false;
     }
     
     public static int getUserIdByUsername(String username) {
