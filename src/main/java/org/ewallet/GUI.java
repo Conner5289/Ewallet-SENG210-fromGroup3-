@@ -1,11 +1,13 @@
 package org.ewallet;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.io.*;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -29,12 +31,14 @@ public class GUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
+	private JTextField txtAmountExpence;
+	private JTextField txtSourceExpence;
+	private JTextField txtYearlyFrequency;
+	private JTextField txtMonthIcome;
+	private JTextField txtSourceIncome;
+	private JTextField txtAmountIncome;
+    private JTextField txtUsername;
+    private JTextField txtPassword;
 
 	/**
 	 * Launch the application.
@@ -57,7 +61,7 @@ public class GUI extends JFrame {
 		Wage temp = new Wage(100.00);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1102, 646);
+		setBounds(100, 100, 1418, 646);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -154,56 +158,56 @@ public class GUI extends JFrame {
 		JLabel lblAmount = new JLabel("Amount:");
 		lblAmount.setBounds(82, 254, 124, 33);
 		contentPane.add(lblAmount);
-
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(202, 252, 147, 38);
-		contentPane.add(textField_2);
-
+    
+		txtAmountExpence = new JTextField();
+		txtAmountExpence.setColumns(10);
+		txtAmountExpence.setBounds(202, 252, 147, 38);
+		contentPane.add(txtAmountExpence);
+		
 		JLabel lblAmount_1 = new JLabel("Source:");
 		lblAmount_1.setBounds(82, 311, 124, 33);
 		contentPane.add(lblAmount_1);
-
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(202, 309, 147, 38);
-		contentPane.add(textField_3);
-
+		
+		txtSourceExpence = new JTextField();
+		txtSourceExpence.setColumns(10);
+		txtSourceExpence.setBounds(202, 309, 147, 38);
+		contentPane.add(txtSourceExpence);
+		
 		JLabel lblAmount_2 = new JLabel("Yearly Frequency:");
 		lblAmount_2.setBounds(82, 379, 124, 33);
 		contentPane.add(lblAmount_2);
-
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(202, 377, 147, 38);
-		contentPane.add(textField_4);
-
+		
+		txtYearlyFrequency = new JTextField();
+		txtYearlyFrequency.setColumns(10);
+		txtYearlyFrequency.setBounds(202, 377, 147, 38);
+		contentPane.add(txtYearlyFrequency);
+		
 		JLabel lblAmount_2_1 = new JLabel("Month:");
 		lblAmount_2_1.setBounds(415, 376, 124, 33);
 		contentPane.add(lblAmount_2_1);
-
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(535, 374, 147, 38);
-		contentPane.add(textField_5);
-
+		
+		txtMonthIcome = new JTextField();
+		txtMonthIcome.setColumns(10);
+		txtMonthIcome.setBounds(535, 374, 147, 38);
+		contentPane.add(txtMonthIcome);
+		
 		JLabel lblAmount_1_1 = new JLabel("Source:");
 		lblAmount_1_1.setBounds(415, 308, 124, 33);
 		contentPane.add(lblAmount_1_1);
-
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(535, 306, 147, 38);
-		contentPane.add(textField_6);
-
+		
+		txtSourceIncome = new JTextField();
+		txtSourceIncome.setColumns(10);
+		txtSourceIncome.setBounds(535, 306, 147, 38);
+		contentPane.add(txtSourceIncome);
+		
 		JLabel lblAmount_3 = new JLabel("Amount:");
 		lblAmount_3.setBounds(415, 251, 124, 33);
 		contentPane.add(lblAmount_3);
-
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(535, 249, 147, 38);
-		contentPane.add(textField_7);
+		
+		txtAmountIncome = new JTextField();
+		txtAmountIncome.setColumns(10);
+		txtAmountIncome.setBounds(535, 249, 147, 38);
+		contentPane.add(txtAmountIncome);
 
 		JButton btnAddExpence_1 = new JButton("Add Expence");
 		btnAddExpence_1.setBounds(214, 438, 135, 33);
@@ -248,6 +252,43 @@ public class GUI extends JFrame {
 		lblCurrency.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCurrency.setBounds(702, 10, 124, 33);
 		contentPane.add(lblCurrency);
+		
+		JPanel panel = new JPanel();
+        panel.setBounds(1117, 20, 269, 469);
+        contentPane.add(panel);
+        panel.setLayout(null);
+
+        JLabel lblLogin = new JLabel("Login");
+        lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
+        lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        lblLogin.setBounds(88, 69, 107, 40);
+        panel.add(lblLogin);
+
+        JLabel lblUsername = new JLabel("Username:");
+        lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
+        lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblUsername.setBounds(102, 163, 78, 40);
+        panel.add(lblUsername);
+
+        JLabel lblPassword = new JLabel("Password:");
+        lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
+        lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 11));
+        lblPassword.setBounds(102, 272, 78, 40);
+        panel.add(lblPassword);
+        
+        txtUsername = new JTextField();
+        txtUsername.setBounds(10, 217, 239, 38);
+        panel.add(txtUsername);
+        txtUsername.setColumns(10);
+
+        txtPassword = new JTextField();
+        txtPassword.setBounds(10, 326, 239, 38);
+        panel.add(txtPassword);
+        txtPassword.setColumns(10);
+
+        JButton btnLogin = new JButton("Login");
+        btnLogin.setBounds(72, 375, 135, 33);
+        panel.add(btnLogin);
 	}
 
 	public void fileChooser(String expenseOrIncome) {
