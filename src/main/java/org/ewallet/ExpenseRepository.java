@@ -22,7 +22,7 @@ public class ExpenseRepository {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                System.out.println("Connected to the database");
+                // System.out.println("Connected to the database");
 
                 // SQL query to get expenses based on username
                 // Doing an inner join with the two tables so we can just search by username
@@ -75,7 +75,7 @@ public class ExpenseRepository {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                System.out.println("Connected to the database");
+                // System.out.println("Connected to the database");
 
                 int userID = UserRepository.getUserIdByUsername(username);
                 if (userID == -1) {

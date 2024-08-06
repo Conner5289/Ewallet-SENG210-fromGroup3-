@@ -13,7 +13,6 @@ public class connection {
             conn = DriverManager.getConnection(dbUrl, user, password);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("connection fucked up");
         }
         return conn;
     }

@@ -22,6 +22,8 @@ public class FileTransfer {
                 String dateString = null;
                 int yearlyFrequency = 0;
 
+                System.out.println(dateString);
+
                 try {
                     userName = lineParts[0];
                     amount = Integer.parseInt(lineParts[1]);
@@ -48,7 +50,6 @@ public class FileTransfer {
 
                 try {
                     inExpense.addExpense(localExpense, userName);
-                    return 0;
                 } catch (Exception e) {
                     return 1;
                 }
@@ -97,12 +98,6 @@ public class FileTransfer {
                     return 2;
                 }
 
-                // rm debug shit
-                System.out.println(username);
-                System.out.println(amount);
-                System.out.println(source);
-                System.out.println(date);
-
                 Wage localWage = null;
                 ExpenseCalculator inIncome = null;
 
@@ -111,7 +106,6 @@ public class FileTransfer {
 
                 try {
                     inIncome.addMonthlyIncome(localWage, username);
-                    return 0;
                 } catch (Exception e) {
                     return 1;
                 }

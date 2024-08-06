@@ -17,7 +17,7 @@ public class UserRepository {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                System.out.println("Connected to the database");
+                // System.out.println("Connected to the database");
 
                 // Execute a query
                 stmt = conn.createStatement();
@@ -64,7 +64,7 @@ public class UserRepository {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                System.out.println("Connected to the database");
+                // System.out.println("Connected to the database");
 
                 String sql = "SELECT userID FROM users WHERE username = ?";
 
