@@ -52,9 +52,6 @@ public class GUI extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public GUI() {
 
 		Wage temp = new Wage(100.00);
@@ -268,28 +265,36 @@ public class GUI extends JFrame {
 
 			FileTransfer transfer = new FileTransfer();
 			if (expenseOrIncome.equals("expense")) {
-				if (transfer.importExpense(selectedFile.getAbsolutePath())) {
-
+				if (transfer.importExpense(selectedFile.getAbsolutePath()) == 0) {
 					JOptionPane.showMessageDialog(contentPane, "Expense file has been uploaded!", "Transfer",
 							JOptionPane.INFORMATION_MESSAGE);
+				} else if (transfer.importExpense(selectedFile.getAbsolutePath()) == 1) {
+					JOptionPane.showMessageDialog(contentPane, "Expense file has been not been uploaded", "Warning",
+							JOptionPane.WARNING_MESSAGE);
+				} else if (transfer.importExpense(selectedFile.getAbsolutePath()) == 2) {
+					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format", "Warning",
+							JOptionPane.WARNING_MESSAGE);
 				}
-
 			}
+
 			if (expenseOrIncome.equals("income")) {
 
-				if (transfer.importincome(selectedFile.getAbsolutePath())) {
-
+				if (transfer.importIncome(selectedFile.getAbsolutePath()) == 0) {
 					JOptionPane.showMessageDialog(contentPane, "Income file has been uploaded!", "Transfer",
 							JOptionPane.INFORMATION_MESSAGE);
+				} else if ((transfer.importIncome(selectedFile.getAbsolutePath()) == 1)) {
+					JOptionPane.showMessageDialog(contentPane, "Income file has been NOT been uploaded", "Warning",
+							JOptionPane.WARNING_MESSAGE);
+				} else if (transfer.importIncome(selectedFile.getAbsolutePath()) == 2) {
+					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format", "Warning",
+							JOptionPane.WARNING_MESSAGE);
+
 				}
 			}
-
 		} else {
-
-			JOptionPane.showMessageDialog(contentPane, "No file was selected", "Warning", JOptionPane.WARNING_MESSAGE);
-
+			JOptionPane.showMessageDialog(contentPane, "No file was selected", "Warning",
+					JOptionPane.WARNING_MESSAGE);
 		}
 
 	}
-
 }
