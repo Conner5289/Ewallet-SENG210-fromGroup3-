@@ -22,8 +22,6 @@ public class FileTransfer {
                 String dateString = null;
                 int yearlyFrequency = 0;
 
-                System.out.println(dateString);
-
                 try {
                     userName = lineParts[0];
                     amount = Integer.parseInt(lineParts[1]);

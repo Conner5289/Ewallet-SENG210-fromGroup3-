@@ -48,12 +48,12 @@ public interface IExpenseCalculator {
 	// As a user I would like to provide an item and a price and get an estimate in
 	// number of months needed to save up to buy this item. (based on current
 	// monthly saving.
-	public int whenCanIBuy(String itemName, double price);
+	public int whenCanIBuy(double price, String itemName);
 
 	// updates monthly savings based on latest added income and expenses. This is an
 	// internal function not called by the users. Bonus: what is the most efficient
 	// way to call it (when?)?
-	public void updateMonthlySavings();
+	public double updateMonthlySavings(String username);
 
 	public double calculateBalance(String username);
 }
