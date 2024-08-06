@@ -1,18 +1,15 @@
 package org.ewallet;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+
 
 public class UserRepository {
-	
-	public static void main(String[] args) {
-        queryAllUsers();
-    }
 
 	public static List<String[]> queryAllUsers() {
         connection dbConnection = new connection();
@@ -25,7 +22,7 @@ public class UserRepository {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                System.out.println("Connected to the database");
+                // System.out.println("Connected to the database");
 
                 // Execute a query
                 stmt = conn.createStatement();
@@ -56,8 +53,10 @@ public class UserRepository {
         } finally {
             // Close resources
             try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -77,7 +76,7 @@ public class UserRepository {
 
         return false;
     }
-    
+
     public static int getUserIdByUsername(String username) {
         connection dbConnection = new connection();
         Connection conn = null;
@@ -89,10 +88,10 @@ public class UserRepository {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                System.out.println("Connected to the database");
+                // System.out.println("Connected to the database");
 
                 String sql = "SELECT userID FROM users WHERE username = ?";
-                
+
                 pstmt = conn.prepareStatement(sql);
                 // By setting a string this way instead of directly we can Avoid SQL injection
                 pstmt.setString(1, username);
@@ -107,9 +106,12 @@ public class UserRepository {
             e.printStackTrace();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
+                if (rs != null)
+                    rs.close();
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

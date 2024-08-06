@@ -1,37 +1,14 @@
 package org.ewallet;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.sql.Connection;
 
 public class WageRepository {
-
-    public static void main(String[] args) {
-        List<Wage> wagesBeforeAddition = queryWageByUsername("admin");
-        System.out.println("Expenses Before Addition: ");
-        for (Wage wage : wagesBeforeAddition) {
-            System.out.println("Amount: " + wage.getAmount());
-            System.out.println("Source: " + wage.getSource());
-            System.out.println("Date: " + wage.getDate());
-        }
-        
-        // Saving expense Example
-        // new Date() Gives us a variable with the current date
-        Wage newWage = new Wage(100.0, "YouTube Streaming", new Date()); 
-        saveWage(newWage, "admin");
-        
-        List<Wage> wagesAfterAddition = queryWageByUsername("admin");
-        System.out.println("Expenses Before Addition: ");
-        for (Wage wage : wagesAfterAddition) {
-            System.out.println("Amount: " + wage.getAmount());
-            System.out.println("Source: " + wage.getSource());
-            System.out.println("Date: " + wage.getDate());
-        }
-    }
 
     public static List<Wage> queryWageByUsername(String username) {
         connection dbConnection = new connection();
@@ -44,14 +21,15 @@ public class WageRepository {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                System.out.println("Connected to the database");
+                // System.out.println("Connected to the database");
 
                 // SQL query to get wage based on username
-                // Doing an inner join with the two tables so we can just search by username given that the userIDs match
+                // Doing an inner join with the two tables so we can just search by username
+                // given that the userIDs match
                 String sql = "SELECT income.incomeID, income.userID, income.amount, income.source, income.date FROM income "
-                           + "JOIN users ON income.userID = users.userID "
-                           + "WHERE users.username = ?";
-                
+                        + "JOIN users ON income.userID = users.userID "
+                        + "WHERE users.username = ?";
+
                 pstmt = conn.prepareStatement(sql);
                 // By setting a string this way instead of directly we can Avoid SQL injection
                 pstmt.setString(1, username);
@@ -73,9 +51,12 @@ public class WageRepository {
         } finally {
             // Close resources
             try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
+                if (rs != null)
+                    rs.close();
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -83,8 +64,6 @@ public class WageRepository {
 
         return wages;
     }
-    
-    
 
     public static boolean saveWage(Wage wage, String username) {
         connection dbConnection = new connection();
@@ -96,7 +75,7 @@ public class WageRepository {
             conn = dbConnection.getConnection();
 
             if (conn != null) {
-                System.out.println("Connected to the database");
+                // System.out.println("Connected to the database");
 
                 int userID = UserRepository.getUserIdByUsername(username);
                 if (userID == -1) {
@@ -120,8 +99,10 @@ public class WageRepository {
             e.printStackTrace();
         } finally {
             try {
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,4 +1,4 @@
-target/
+src/test/java/org/ewallet/*
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

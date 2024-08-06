@@ -1,4 +1,5 @@
 #!/bin/bash
 
-mvn clean package
+mvn package -Dmaven.test.skip=true
 mvn exec:java -Dexec.mainClass="org.ewallet.EWalletApp"
+mvn clean

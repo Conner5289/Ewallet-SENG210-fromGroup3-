@@ -13,6 +13,13 @@ public class Expense {
         this.yearlyFrequency = yearlyFrequency;
     }
 
+    public void resetExpense(double amount, Date date, int yearlyFrequency) {
+        this.amount = 0.0;
+        this.date = null;
+        this.yearlyFrequency = 0;
+
+    }
+
     public double getAmount() {
         return amount;
     }
