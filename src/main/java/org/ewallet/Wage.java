@@ -20,6 +20,13 @@ public class Wage {
         this.date = date;
     }
 
+    public void resetWage(double amount, String source, Date date) {
+        this.amount = 0.0;
+        this.source = null;
+        this.date = null;
+
+    }
+
     public double getAmount() {
         return amount;
     }

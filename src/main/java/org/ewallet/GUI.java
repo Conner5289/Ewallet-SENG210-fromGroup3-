@@ -7,18 +7,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GUI extends JFrame {
 
@@ -77,32 +80,20 @@ public class GUI extends JFrame {
 		// clean for only csv files
 
 		// Expenses
-		btnImportExpenses.addActionListener(e -> {
-			JFileChooser chooser = new JFileChooser();
-			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-			int retrunVal = chooser.showOpenDialog(contentPane);
-			if (retrunVal == JFileChooser.APPROVE_OPTION) {
-				File selectedFile = chooser.getSelectedFile();
-				FileTransfer transfer = new FileTransfer();
-				transfer.exportFiles(selectedFile.getAbsolutePath());
-
-			} else {
-				dirSelect.setText("No directory selected");
+		btnImportExpenses.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileChooser("expense");
 			}
+
 		});
 
-		btnImportIncome.addActionListener(e -> {
-			JFileChooser chooser = new JFileChooser();
-			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-			int retrunVal = chooser.showOpenDialog(contentPane);
-			if (retrunVal == JFileChooser.APPROVE_OPTION) {
-				File selectedFile = chooser.getSelectedFile();
-				FileTransfer transfer = new FileTransfer();
-				transfer.importFile(selectedFile.getAbsolutePath());
-			} else {
-				dirSelect.setText("No directory selected");
+		// Income
+		btnImportIncome.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileChooser("income");
 			}
 		});
 
@@ -261,4 +252,44 @@ public class GUI extends JFrame {
 		lblCurrency.setBounds(702, 10, 124, 33);
 		contentPane.add(lblCurrency);
 	}
+
+	public void fileChooser(String expenseOrIncome) {
+
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV files", "csv");
+
+		chooser.setFileFilter(fileFilter);
+		chooser.setAcceptAllFileFilterUsed(false);
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+		int retrunVal = chooser.showOpenDialog(contentPane);
+		if (retrunVal == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = chooser.getSelectedFile();
+
+			FileTransfer transfer = new FileTransfer();
+			if (expenseOrIncome.equals("expense")) {
+				if (transfer.importExpense(selectedFile.getAbsolutePath())) {
+
+					JOptionPane.showMessageDialog(contentPane, "Expense file has been uploaded!", "Transfer",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
+			}
+			if (expenseOrIncome.equals("income")) {
+
+				if (transfer.importincome(selectedFile.getAbsolutePath())) {
+
+					JOptionPane.showMessageDialog(contentPane, "Income file has been uploaded!", "Transfer",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+
+		} else {
+
+			JOptionPane.showMessageDialog(contentPane, "No file was selected", "Warning", JOptionPane.WARNING_MESSAGE);
+
+		}
+
+	}
+
 }
