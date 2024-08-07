@@ -454,34 +454,32 @@ public class GUI extends JFrame {
 
 			FileTransfer transfer = new FileTransfer();
 			if (expenseOrIncome.equals("expense")) {
-				if (transfer.importExpense(selectedFile.getAbsolutePath()) == 0) {
-					JOptionPane.showMessageDialog(contentPane, "Expense file has been uploaded!",
-							"Transfer",
+
+				int runCode = transfer.importExpense(selectedFile.getAbsolutePath());
+
+				if (runCode == 0) {
+					JOptionPane.showMessageDialog(contentPane, "Expense file has been uploaded!", "Transfer",
 							JOptionPane.INFORMATION_MESSAGE);
-				} else if (transfer.importExpense(selectedFile.getAbsolutePath()) == 1) {
-					JOptionPane.showMessageDialog(contentPane,
-							"Expense file has been not been uploaded", "Warning",
+				} else if (runCode == 1) {
+					JOptionPane.showMessageDialog(contentPane, "Expense file has been not been uploaded", "Warning",
 							JOptionPane.WARNING_MESSAGE);
-				} else if (transfer.importExpense(selectedFile.getAbsolutePath()) == 2) {
-					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format",
-							"Warning",
+				} else if (runCode == 2) {
+					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format", "Warning",
 							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 
 			if (expenseOrIncome.equals("income")) {
+				int runCode = transfer.importIncome(selectedFile.getAbsolutePath());
 
-				if (transfer.importIncome(selectedFile.getAbsolutePath()) == 0) {
-					JOptionPane.showMessageDialog(contentPane, "Income file has been uploaded!",
-							"Transfer",
+				if (runCode == 0) {
+					JOptionPane.showMessageDialog(contentPane, "Income file has been uploaded!", "Transfer",
 							JOptionPane.INFORMATION_MESSAGE);
-				} else if ((transfer.importIncome(selectedFile.getAbsolutePath()) == 1)) {
-					JOptionPane.showMessageDialog(contentPane,
-							"Income file has been NOT been uploaded", "Warning",
+				} else if (runCode == 1) {
+					JOptionPane.showMessageDialog(contentPane, "Income file has been NOT been uploaded", "Warning",
 							JOptionPane.WARNING_MESSAGE);
-				} else if (transfer.importIncome(selectedFile.getAbsolutePath()) == 2) {
-					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format",
-							"Warning",
+				} else if (runCode == 2) {
+					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format", "Warning",
 							JOptionPane.WARNING_MESSAGE);
 
 				}
@@ -495,15 +493,36 @@ public class GUI extends JFrame {
 
 	public void exportFile(String expenseIncomeOrAll) {
 		JFileChooser chooser = new JFileChooser();
+		FileTransfer outFile = new FileTransfer();
+		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("CSV files", "csv");
+
+		chooser.setApproveButtonText("Save");
 		chooser.setDialogTitle("Export File");
-		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setFileFilter(fileFilter);
+		chooser.setAcceptAllFileFilterUsed(false);
 
-		if (expenseIncomeOrAll.equals("expense")) {
+		int retrunVal = chooser.showOpenDialog(contentPane);
+		File selectedFile = chooser.getSelectedFile();
+		if (retrunVal == JFileChooser.APPROVE_OPTION) {
+			int runCode = 1;
+			if (expenseIncomeOrAll.equals("expense")) {
+				runCode = outFile.exportExpense(selectedFile);
+			} else if (expenseIncomeOrAll.equals("income")) {
+				runCode = outFile.exportIncome(selectedFile);
+			} else {
+				JOptionPane.showMessageDialog(contentPane, "No opration was selected", "Warning",
+						JOptionPane.WARNING_MESSAGE);
+			}
 
-		} else if (expenseIncomeOrAll.equals("income")) {
-
+			if (runCode == 0) {
+				JOptionPane.showMessageDialog(contentPane, "File was successively exported", "Exported",
+						JOptionPane.INFORMATION_MESSAGE);
+			} else if (runCode == 1) {
+				JOptionPane.showMessageDialog(contentPane, "File was not exported", "Warning",
+						JOptionPane.WARNING_MESSAGE);
+			}
 		} else {
-			JOptionPane.showMessageDialog(contentPane, "No opration was selected", "Warning",
+			JOptionPane.showMessageDialog(contentPane, "Nothing was selected", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 		}
 

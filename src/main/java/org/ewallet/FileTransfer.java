@@ -1,11 +1,14 @@
 package org.ewallet;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.ewallet.ExpenseRepository;
+
+import com.google.protobuf.Field;
 
 public class FileTransfer {
     public int importExpense(String filePath) {
@@ -113,12 +116,22 @@ public class FileTransfer {
         return 0;
     }
 
-    public void exportIncome() {
+    public int exportExpense(File filePath) {
 
+        if (!filePath.getName().endsWith(".csv")) {
+            filePath = new File(filePath + ".csv");
+        }
+
+        return 0;
     }
 
-    public void exportExpense() {
+    public int exportIncome(File filePath) {
 
+        if (!filePath.getName().endsWith(".csv")) {
+            filePath = new File(filePath + ".csv");
+        }
+
+        return 0;
     }
 
 }
