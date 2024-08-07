@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -29,10 +30,10 @@ public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField txtAmountExpence;
-	private JTextField txtSourceExpence;
+	private JTextField txtBalance;
+	private JTextField txtSavings;
+	private JTextField txtAmountExpense;
+	private JTextField txtSourceExpense;
 	private JTextField txtYearlyFrequency;
 	private JTextField txtMonthIcome;
 	private JTextField txtSourceIncome;
@@ -40,6 +41,10 @@ public class GUI extends JFrame {
     private JTextField txtUsername;
     private JTextField txtPassword;
 
+	
+	private IExpenseCalculator expenseC = new ExpenseCalculator();
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,6 +62,10 @@ public class GUI extends JFrame {
 	}
 
 	public GUI() {
+		
+		// testing Setup
+		User user = new User("admin", "admin");
+		expenseC.setUser(user);
 
 		Wage temp = new Wage(100.00);
 
@@ -129,23 +138,23 @@ public class GUI extends JFrame {
 		contentPane.add(lblSavings);
 
 		// Bal
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setBounds(74, 121, 147, 38);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtBalance = new JTextField();
+		txtBalance.setEditable(false);
+		txtBalance.setBounds(74, 121, 147, 38);
+		contentPane.add(txtBalance);
+		txtBalance.setColumns(10);
 
-		textField.setText("100.0");
+		txtBalance.setText("100.0");
 
 		// save
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBounds(266, 121, 147, 38);
-		contentPane.add(textField_1);
-		textField_1.setText("100.0");
+		txtSavings = new JTextField();
+		txtSavings.setEditable(false);
+		txtSavings.setColumns(10);
+		txtSavings.setBounds(266, 121, 147, 38);
+		contentPane.add(txtSavings);
+		txtSavings.setText("100.0");
 
-		JLabel lblAddExpence = new JLabel("Add Expence:");
+		JLabel lblAddExpence = new JLabel("Add Expense:");
 		lblAddExpence.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAddExpence.setBounds(100, 192, 124, 33);
 		contentPane.add(lblAddExpence);
@@ -159,19 +168,19 @@ public class GUI extends JFrame {
 		lblAmount.setBounds(82, 254, 124, 33);
 		contentPane.add(lblAmount);
     
-		txtAmountExpence = new JTextField();
-		txtAmountExpence.setColumns(10);
-		txtAmountExpence.setBounds(202, 252, 147, 38);
-		contentPane.add(txtAmountExpence);
+		txtAmountExpense = new JTextField();
+		txtAmountExpense.setColumns(10);
+		txtAmountExpense.setBounds(202, 252, 147, 38);
+		contentPane.add(txtAmountExpense);
 		
 		JLabel lblAmount_1 = new JLabel("Source:");
 		lblAmount_1.setBounds(82, 311, 124, 33);
 		contentPane.add(lblAmount_1);
 		
-		txtSourceExpence = new JTextField();
-		txtSourceExpence.setColumns(10);
-		txtSourceExpence.setBounds(202, 309, 147, 38);
-		contentPane.add(txtSourceExpence);
+		txtSourceExpense = new JTextField();
+		txtSourceExpense.setColumns(10);
+		txtSourceExpense.setBounds(202, 309, 147, 38);
+		contentPane.add(txtSourceExpense);
 		
 		JLabel lblAmount_2 = new JLabel("Yearly Frequency:");
 		lblAmount_2.setBounds(82, 379, 124, 33);
@@ -209,13 +218,85 @@ public class GUI extends JFrame {
 		txtAmountIncome.setBounds(535, 249, 147, 38);
 		contentPane.add(txtAmountIncome);
 
-		JButton btnAddExpence_1 = new JButton("Add Expence");
-		btnAddExpence_1.setBounds(214, 438, 135, 33);
-		contentPane.add(btnAddExpence_1);
+		JButton btnAddExpense = new JButton("Add Expense");
+		btnAddExpense.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				double amount = 0.0;
+				
+				try {
+				    amount = Double.parseDouble(txtAmountExpense.getText());
+				} catch (NumberFormatException ex) {
+				    JOptionPane.showMessageDialog(contentPane, "Invalid input. Please enter a valid expense amount.", "Error", JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
+				
+				int yearlyFrequency = 0;
+				
+				try {
+					yearlyFrequency = Integer.parseInt(txtYearlyFrequency.getText());
+				} catch (NumberFormatException ex) {
+				    JOptionPane.showMessageDialog(contentPane, "Invalid input. Please enter a valid yearly frequency.", "Error", JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
+				
+				
+				Date currentDate = new Date();
+				
+				expenseC.addExpense(amount, yearlyFrequency, currentDate);
+				
+				//Get the current user Username
+				String CurrentUser = expenseC.getUserAtHand().getUsername();
+			
+				txtSavings.setText(Double.toString(expenseC.updateMonthlySavings(CurrentUser)));
+				
+				txtBalance.setText(Double.toString(expenseC.calculateBalance(CurrentUser)));
+				
 
-		JButton btnAddExpence = new JButton("Add Income");
-		btnAddExpence.setBounds(547, 438, 135, 33);
-		contentPane.add(btnAddExpence);
+			}
+		});
+		btnAddExpense.setBounds(214, 438, 135, 33);
+		contentPane.add(btnAddExpense);
+
+		JButton btnAddIncome = new JButton("Add Income");
+		btnAddIncome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				double amount = 0.0;
+				
+				try {
+				    amount = Double.parseDouble(txtAmountIncome.getText());
+				} catch (NumberFormatException ex) {
+				    JOptionPane.showMessageDialog(contentPane, "Invalid input. Please enter a valid expense amount.", "Error", JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
+				
+				
+				String source = "";
+				
+				try {
+					source = txtSourceIncome.getText();
+				} catch (NumberFormatException ex) {
+				    JOptionPane.showMessageDialog(contentPane, "Invalid input. Please enter a valid number for expense source.", "Error", JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
+				
+				Date currentDate = new Date();
+				
+				expenseC.addMonthlyIncome(amount, source, currentDate);
+				
+				//Get the current user Username
+				String CurrentUser = expenseC.getUserAtHand().getUsername();
+			
+				txtSavings.setText(Double.toString(expenseC.updateMonthlySavings(CurrentUser)));
+				
+				txtBalance.setText(Double.toString(expenseC.calculateBalance(CurrentUser)));
+				
+				
+			}
+		});
+		btnAddIncome.setBounds(547, 438, 135, 33);
+		contentPane.add(btnAddIncome);
 
 		JLabel lblWelcome = new JLabel("Welcome!");
 		lblWelcome.setHorizontalAlignment(SwingConstants.LEFT);
@@ -236,13 +317,13 @@ public class GUI extends JFrame {
 				String dollar = (String) comboBox.getSelectedItem();
 				if (dollar.equals("CAD")) {
 					double cadAmout = temp.getAmount() * 1.38;
-					textField.setText(Double.toString(cadAmout));
-					textField_1.setText(Double.toString(cadAmout));
+					txtBalance.setText(Double.toString(cadAmout));
+					txtSavings.setText(Double.toString(cadAmout));
 
 				} else {
 					double usdAmout = temp.getAmount();
-					textField.setText(Double.toString(usdAmout));
-					textField_1.setText(Double.toString(usdAmout));
+					txtBalance.setText(Double.toString(usdAmout));
+					txtSavings.setText(Double.toString(usdAmout));
 				}
 
 			}
