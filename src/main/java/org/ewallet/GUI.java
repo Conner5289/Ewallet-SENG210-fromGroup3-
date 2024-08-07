@@ -36,7 +36,6 @@ public class GUI extends JFrame {
 	private JTextField txtUsername;
 	private JTextField txtPassword;
 
-
 	private IExpenseCalculator expenseC = new ExpenseCalculator();
 	private Date selectedDateIncome = null;
 	private Date selectedDateExpense = null;
@@ -423,26 +422,26 @@ public class GUI extends JFrame {
 		JLabel lblAmount_2_2_1 = new JLabel("Date:");
 		lblAmount_2_2_1.setBounds(415, 376, 105, 33);
 		contentPane.add(lblAmount_2_2_1);
-		
+
 		JLabel lblWhenCanI = new JLabel("When Can I buy:");
 		lblWhenCanI.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWhenCanI.setBounds(943, 415, 135, 33);
 		contentPane.add(lblWhenCanI);
-		
+
 		JLabel lblAmount_3_1 = new JLabel("Item Cost:");
-		lblAmount_3_1.setBounds(890, 448, 124, 33);
+		lblAmount_3_1.setBounds(870, 448, 124, 33);
 		contentPane.add(lblAmount_3_1);
-		
+
 		textWCIB = new JTextField();
 		textWCIB.setColumns(10);
 		textWCIB.setBounds(943, 445, 147, 38);
 		contentPane.add(textWCIB);
-		
+
 		JButton btnWCIBSummit = new JButton("Summit");
 		btnWCIBSummit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				double amountWCIB = 0;
-				
+
 				try {
 					amountWCIB = Double.parseDouble(textWCIB.getText());
 				} catch (NumberFormatException ex) {
@@ -451,12 +450,13 @@ public class GUI extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
+
 				String CurrentUser = expenseC.getUserAtHand().getUsername();
-				
+
 				int months = expenseC.whenCanIBuy(amountWCIB, CurrentUser);
-				
-				JOptionPane.showMessageDialog(contentPane, "You will be able to buy the item in " + months + " months.");
+
+				JOptionPane.showMessageDialog(contentPane,
+						"You will be able to buy the item in " + months + " months.");
 			}
 		});
 		btnWCIBSummit.setBounds(965, 491, 105, 33);
