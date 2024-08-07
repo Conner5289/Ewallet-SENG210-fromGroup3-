@@ -60,4 +60,6 @@ public interface IExpenseCalculator {
 	public double calculateBalance(String username);
 
 	public User getUserAtHand();
+
+	public boolean Login(String username, String Password);
 }

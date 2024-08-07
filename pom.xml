@@ -39,7 +39,13 @@
             <version>5.9.3</version>
             <scope>test</scope>
         </dependency>
-      
+
+        <dependency>
+		    <groupId>com.toedter</groupId>
+		    <artifactId>jcalendar</artifactId>
+		    <version>1.4</version>
+		</dependency>
+
 
     </dependencies>
 </project>

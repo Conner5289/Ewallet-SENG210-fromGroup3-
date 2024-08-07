@@ -30,6 +30,23 @@ public class ExpenseCalculator implements IExpenseCalculator {
     public void setUser(User user) {
         userAtHand = user;
     }
+	
+	@Override
+    public boolean Login(String username, String Password) {
+		
+		if (UserRepository.Authentication(username, Password)) {
+			
+			User user = new User(username, Password);
+			userAtHand = user;
+			
+			return true;
+			
+		}else {
+			
+			return false;
+		}
+
+    }
 
     @Override
     public void addExpense(double amount, int yearlyFrequency, Date date) {
