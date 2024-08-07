@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.mysql.cj.conf.StringPropertyDefinition;
 // Date Picker Imports
 import com.toedter.calendar.JDateChooser;
 
@@ -62,8 +63,6 @@ public class GUI extends JFrame {
 
 		// User user = new User("admin", "admin");
 		// expenseC.setUser(user);
-
-		Wage temp = new Wage(100.00);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1433, 646);
@@ -154,15 +153,12 @@ public class GUI extends JFrame {
 		contentPane.add(txtBalance);
 		txtBalance.setColumns(10);
 
-		txtBalance.setText("100.0");
-
 		// save
 		txtSavings = new JTextField();
 		txtSavings.setEditable(false);
 		txtSavings.setColumns(10);
 		txtSavings.setBounds(266, 121, 147, 38);
 		contentPane.add(txtSavings);
-		txtSavings.setText("100.0");
 
 		JLabel lblAddExpence = new JLabel("Add Expense:");
 		lblAddExpence.setHorizontalAlignment(SwingConstants.CENTER);
@@ -263,6 +259,7 @@ public class GUI extends JFrame {
 
 				// Get the current user Username
 				String CurrentUser = expenseC.getUserAtHand().getUsername();
+				// here
 
 				txtSavings.setText(Double.toString(expenseC.updateMonthlySavings(CurrentUser)));
 
@@ -338,24 +335,32 @@ public class GUI extends JFrame {
 		comboBox.setSize(60, 25);
 		contentPane.add(comboBox);
 
-		comboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Bal
-				String dollar = (String) comboBox.getSelectedItem();
-				if (dollar.equals("CAD")) {
-					double cadAmout = temp.getAmount() * 1.38;
-					txtBalance.setText(Double.toString(cadAmout));
-					txtSavings.setText(Double.toString(cadAmout));
-
-				} else {
-					double usdAmout = temp.getAmount();
-					txtBalance.setText(Double.toString(usdAmout));
-					txtSavings.setText(Double.toString(usdAmout));
-				}
-
-			}
-		});
+		// comboBox.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// // Bal
+		// String dollar = (String) comboBox.getSelectedItem();
+		// if (dollar.equals("CAD")) {
+		// double bAmount = Double.parseDouble(txtBalance.getText());
+		// double sAmount = Double.parseDouble(txtSavings.getText());
+		//
+		// double cadBAmout = bAmount * 1.38;
+		// double cadSAmout = sAmount * 1.38;
+		// txtBalance.setText(Double.toString(cadBAmout));
+		// txtSavings.setText(Double.toString(cadSAmout));
+		//
+		// } else {
+		// double bAmount = Double.parseDouble(txtBalance.getText());
+		// double sAmount = Double.parseDouble(txtSavings.getText());
+		//
+		// double cadBAmout = bAmount * .724;
+		// double cadSAmout = sAmount * .724;
+		// txtBalance.setText(Double.toString(cadBAmout));
+		// txtSavings.setText(Double.toString(cadSAmout));
+		// }
+		//
+		// }
+		// });
 
 		JLabel lblCurrency = new JLabel("Currency:");
 		lblCurrency.setHorizontalAlignment(SwingConstants.CENTER);
