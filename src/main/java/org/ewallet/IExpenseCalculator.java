@@ -1,11 +1,13 @@
 package org.ewallet;
 
+import java.util.Date;
+
 public interface IExpenseCalculator {
 	public void setUser(User user);
 
-	public void addExpense(Expense expense, String username);
+	public void addExpense(double amount, int yearlyFrequency, Date date);
 
-	public boolean addMonthlyIncome(Wage w, String username);
+	public boolean addMonthlyIncome(double amount, String source, Date date);
 
 	// As a user I would like to view a detailed report of all expenses, income, and
 	// summary information
@@ -56,4 +58,8 @@ public interface IExpenseCalculator {
 	public double updateMonthlySavings(String username);
 
 	public double calculateBalance(String username);
+
+	public User getUserAtHand();
+
+	public boolean Login(String username, String Password);
 }

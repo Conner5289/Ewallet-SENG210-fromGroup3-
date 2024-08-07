@@ -22,24 +22,46 @@ public class ExpenseCalculator implements IExpenseCalculator {
 
     private User userAtHand = null;
 
-    @Override
+    public User getUserAtHand() {
+		return userAtHand;
+	}
+
+	@Override
     public void setUser(User user) {
         userAtHand = user;
     }
+	
+	@Override
+    public boolean Login(String username, String Password) {
+		
+		if (UserRepository.Authentication(username, Password)) {
+			
+			User user = new User(username, Password);
+			userAtHand = user;
+			
+			return true;
+			
+		}else {
+			
+			return false;
+		}
 
-    @Override
-    public void addExpense(Expense expense, String username) {
-
-        ExpenseRepository.saveExpense(expense, username);
     }
 
     @Override
-    public boolean addMonthlyIncome(Wage w, String username) {
-        // I do not know what this is
-        // if (userAtHand == null)
-        // return;
+    public void addExpense(double amount, int yearlyFrequency, Date date) {
+    	
+    	Expense e = new Expense(amount, date, yearlyFrequency);
 
-        if (WageRepository.saveWage(w, username)) {
+        ExpenseRepository.saveExpense(e, userAtHand.getUsername());
+    }
+
+    @Override
+    public boolean addMonthlyIncome(double amount, String source, Date date) {
+    	
+    	Wage w = new Wage(amount, source, date);
+
+        if (WageRepository.saveWage(w, userAtHand.getUsername())) {
             return true;
         } else {
             return false;
@@ -306,6 +328,6 @@ public class ExpenseCalculator implements IExpenseCalculator {
         System.out.println("Monthly Savings: " + savings);
 
         int months = calculator.whenCanIBuy(9000, "admin");
-        System.out.println("Months to buy item worth $5000: " + months);
+        System.out.println("Months to buy item worth $9000: " + months);
     }
 }

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -25,21 +26,29 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+// Date Picker Imports
+import com.toedter.calendar.JDateChooser;
+
+
 public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField txtAmountExpence;
-	private JTextField txtSourceExpence;
+	private JTextField txtBalance;
+	private JTextField txtSavings;
+	private JTextField txtAmountExpense;
 	private JTextField txtYearlyFrequency;
-	private JTextField txtMonthIcome;
 	private JTextField txtSourceIncome;
 	private JTextField txtAmountIncome;
     private JTextField txtUsername;
     private JTextField txtPassword;
+    
 
+	
+	private IExpenseCalculator expenseC = new ExpenseCalculator();
+	private Date selectedDateIncome = null;
+	private Date selectedDateExpense = null;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,11 +66,16 @@ public class GUI extends JFrame {
 	}
 
 	public GUI() {
+		
+		// testing Setup
+		
+		//User user = new User("admin", "admin");
+		//expenseC.setUser(user);
 
 		Wage temp = new Wage(100.00);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1418, 646);
+		setBounds(100, 100, 1433, 646);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -129,23 +143,23 @@ public class GUI extends JFrame {
 		contentPane.add(lblSavings);
 
 		// Bal
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setBounds(74, 121, 147, 38);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtBalance = new JTextField();
+		txtBalance.setEditable(false);
+		txtBalance.setBounds(74, 121, 147, 38);
+		contentPane.add(txtBalance);
+		txtBalance.setColumns(10);
 
-		textField.setText("100.0");
+		txtBalance.setText("100.0");
 
 		// save
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBounds(266, 121, 147, 38);
-		contentPane.add(textField_1);
-		textField_1.setText("100.0");
+		txtSavings = new JTextField();
+		txtSavings.setEditable(false);
+		txtSavings.setColumns(10);
+		txtSavings.setBounds(266, 121, 147, 38);
+		contentPane.add(txtSavings);
+		txtSavings.setText("100.0");
 
-		JLabel lblAddExpence = new JLabel("Add Expence:");
+		JLabel lblAddExpence = new JLabel("Add Expense:");
 		lblAddExpence.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAddExpence.setBounds(100, 192, 124, 33);
 		contentPane.add(lblAddExpence);
@@ -159,37 +173,19 @@ public class GUI extends JFrame {
 		lblAmount.setBounds(82, 254, 124, 33);
 		contentPane.add(lblAmount);
     
-		txtAmountExpence = new JTextField();
-		txtAmountExpence.setColumns(10);
-		txtAmountExpence.setBounds(202, 252, 147, 38);
-		contentPane.add(txtAmountExpence);
-		
-		JLabel lblAmount_1 = new JLabel("Source:");
-		lblAmount_1.setBounds(82, 311, 124, 33);
-		contentPane.add(lblAmount_1);
-		
-		txtSourceExpence = new JTextField();
-		txtSourceExpence.setColumns(10);
-		txtSourceExpence.setBounds(202, 309, 147, 38);
-		contentPane.add(txtSourceExpence);
+		txtAmountExpense = new JTextField();
+		txtAmountExpense.setColumns(10);
+		txtAmountExpense.setBounds(202, 252, 147, 38);
+		contentPane.add(txtAmountExpense);
 		
 		JLabel lblAmount_2 = new JLabel("Yearly Frequency:");
-		lblAmount_2.setBounds(82, 379, 124, 33);
+		lblAmount_2.setBounds(82, 308, 124, 33);
 		contentPane.add(lblAmount_2);
 		
 		txtYearlyFrequency = new JTextField();
 		txtYearlyFrequency.setColumns(10);
-		txtYearlyFrequency.setBounds(202, 377, 147, 38);
+		txtYearlyFrequency.setBounds(202, 306, 147, 38);
 		contentPane.add(txtYearlyFrequency);
-		
-		JLabel lblAmount_2_1 = new JLabel("Month:");
-		lblAmount_2_1.setBounds(415, 376, 124, 33);
-		contentPane.add(lblAmount_2_1);
-		
-		txtMonthIcome = new JTextField();
-		txtMonthIcome.setColumns(10);
-		txtMonthIcome.setBounds(535, 374, 147, 38);
-		contentPane.add(txtMonthIcome);
 		
 		JLabel lblAmount_1_1 = new JLabel("Source:");
 		lblAmount_1_1.setBounds(415, 308, 124, 33);
@@ -208,14 +204,116 @@ public class GUI extends JFrame {
 		txtAmountIncome.setColumns(10);
 		txtAmountIncome.setBounds(535, 249, 147, 38);
 		contentPane.add(txtAmountIncome);
+		
+		// Date picker setup for Expense
+		JDateChooser dateChooserExpense = new JDateChooser();
+		dateChooserExpense.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedDateExpense = dateChooserExpense.getDate();
+		        if (selectedDateExpense != null) {
+		            JOptionPane.showMessageDialog(contentPane, "Selected Date: " + selectedDateExpense.toString());
+		        } else {
+		            JOptionPane.showMessageDialog(contentPane, "No date selected.", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+			}
+		});
+		dateChooserExpense.setBounds(202, 376, 147, 30); 
+		contentPane.add(dateChooserExpense);
 
-		JButton btnAddExpence_1 = new JButton("Add Expence");
-		btnAddExpence_1.setBounds(214, 438, 135, 33);
-		contentPane.add(btnAddExpence_1);
 
-		JButton btnAddExpence = new JButton("Add Income");
-		btnAddExpence.setBounds(547, 438, 135, 33);
-		contentPane.add(btnAddExpence);
+		JButton btnAddExpense = new JButton("Add Expense");
+		btnAddExpense.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				double amount = 0.0;
+				
+				try {
+				    amount = Double.parseDouble(txtAmountExpense.getText());
+				} catch (NumberFormatException ex) {
+				    JOptionPane.showMessageDialog(contentPane, "Invalid input. Please enter a valid expense amount.", "Error", JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
+				
+				int yearlyFrequency = 0;
+				
+				try {
+					yearlyFrequency = Integer.parseInt(txtYearlyFrequency.getText());
+				} catch (NumberFormatException ex) {
+				    JOptionPane.showMessageDialog(contentPane, "Invalid input. Please enter a valid yearly frequency.", "Error", JOptionPane.ERROR_MESSAGE);
+				    return;
+				}
+				
+				
+				if (selectedDateExpense == null) {
+                    JOptionPane.showMessageDialog(contentPane, "Please select a date.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+				
+				expenseC.addExpense(amount, yearlyFrequency, selectedDateExpense);
+				
+				//Get the current user Username
+				String CurrentUser = expenseC.getUserAtHand().getUsername();
+			
+				txtSavings.setText(Double.toString(expenseC.updateMonthlySavings(CurrentUser)));
+				
+				txtBalance.setText(Double.toString(expenseC.calculateBalance(CurrentUser)));
+				
+
+			}
+		});
+		btnAddExpense.setBounds(214, 438, 135, 33);
+		contentPane.add(btnAddExpense);
+		
+		// Date picker setup for Income
+		JDateChooser dateChooserIcome = new JDateChooser();
+		dateChooserIcome.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedDateIncome = dateChooserIcome.getDate();
+		        if (selectedDateIncome != null) {
+		            JOptionPane.showMessageDialog(contentPane, "Selected Date: " + selectedDateIncome.toString());
+		        } else {
+		            JOptionPane.showMessageDialog(contentPane, "No date selected.", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+			}
+		});
+		dateChooserIcome.setBounds(535, 376, 147, 30); 
+		contentPane.add(dateChooserIcome);
+
+
+        JButton btnAddIncome = new JButton("Add Income");
+        btnAddIncome.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                double amount = 0.0;
+
+                try {
+                    amount = Double.parseDouble(txtAmountIncome.getText());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(contentPane, "Invalid input. Please enter a valid income amount.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String source = txtSourceIncome.getText();
+
+                if (selectedDateIncome == null) {
+                    JOptionPane.showMessageDialog(contentPane, "Please select a date.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                expenseC.addMonthlyIncome(amount, source, selectedDateIncome);
+
+                // Get the current user Username
+                String CurrentUser = expenseC.getUserAtHand().getUsername();
+                txtSavings.setText(Double.toString(expenseC.updateMonthlySavings(CurrentUser)));
+                txtBalance.setText(Double.toString(expenseC.calculateBalance(CurrentUser)));
+				
+				
+			}
+		});
+		
+		btnAddIncome.setBounds(547, 438, 135, 33);
+		contentPane.add(btnAddIncome);
+		
 
 		JLabel lblWelcome = new JLabel("Welcome!");
 		lblWelcome.setHorizontalAlignment(SwingConstants.LEFT);
@@ -236,13 +334,13 @@ public class GUI extends JFrame {
 				String dollar = (String) comboBox.getSelectedItem();
 				if (dollar.equals("CAD")) {
 					double cadAmout = temp.getAmount() * 1.38;
-					textField.setText(Double.toString(cadAmout));
-					textField_1.setText(Double.toString(cadAmout));
+					txtBalance.setText(Double.toString(cadAmout));
+					txtSavings.setText(Double.toString(cadAmout));
 
 				} else {
 					double usdAmout = temp.getAmount();
-					textField.setText(Double.toString(usdAmout));
-					textField_1.setText(Double.toString(usdAmout));
+					txtBalance.setText(Double.toString(usdAmout));
+					txtSavings.setText(Double.toString(usdAmout));
 				}
 
 			}
@@ -254,41 +352,59 @@ public class GUI extends JFrame {
 		contentPane.add(lblCurrency);
 		
 		JPanel panel = new JPanel();
-        panel.setBounds(1117, 20, 269, 469);
+        panel.setBounds(1117, 20, 292, 533);
         contentPane.add(panel);
         panel.setLayout(null);
 
         JLabel lblLogin = new JLabel("Login");
         lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
         lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        lblLogin.setBounds(88, 69, 107, 40);
+        lblLogin.setBounds(91, 118, 107, 40);
         panel.add(lblLogin);
 
         JLabel lblUsername = new JLabel("Username:");
         lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
         lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        lblUsername.setBounds(102, 163, 78, 40);
+        lblUsername.setBounds(106, 217, 78, 40);
         panel.add(lblUsername);
 
         JLabel lblPassword = new JLabel("Password:");
         lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
         lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        lblPassword.setBounds(102, 272, 78, 40);
+        lblPassword.setBounds(106, 326, 78, 40);
         panel.add(lblPassword);
         
         txtUsername = new JTextField();
-        txtUsername.setBounds(10, 217, 239, 38);
+        txtUsername.setBounds(26, 271, 239, 38);
         panel.add(txtUsername);
         txtUsername.setColumns(10);
 
         txtPassword = new JTextField();
-        txtPassword.setBounds(10, 326, 239, 38);
+        txtPassword.setBounds(26, 380, 239, 38);
         panel.add(txtPassword);
         txtPassword.setColumns(10);
 
         JButton btnLogin = new JButton("Login");
-        btnLogin.setBounds(72, 375, 135, 33);
+        btnLogin.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		if (expenseC.Login(txtUsername.getText(), txtPassword.getText()) == false) {
+        			
+                    JOptionPane.showMessageDialog(contentPane, "Wrong Credectials, Try again", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+        	}
+        });
+        btnLogin.setBounds(78, 435, 135, 33);
         panel.add(btnLogin);
+        
+        JLabel lblAmount_2_2 = new JLabel("Start Date:");
+        lblAmount_2_2.setBounds(82, 376, 115, 33);
+        contentPane.add(lblAmount_2_2);
+        
+        JLabel lblAmount_2_2_1 = new JLabel("Date:");
+        lblAmount_2_2_1.setBounds(415, 376, 105, 33);
+        contentPane.add(lblAmount_2_2_1);
 	}
 
 	public void fileChooser(String expenseOrIncome) {
