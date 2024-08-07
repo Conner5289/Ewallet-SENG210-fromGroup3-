@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.ewallet.ExpenseRepository;
 
 public class FileTransfer {
     public int importExpense(String filePath) {
@@ -41,13 +42,11 @@ public class FileTransfer {
                 }
 
                 Expense localExpense = null;
-                ExpenseCalculator inExpense = null;
 
                 localExpense = new Expense(amount, date, yearlyFrequency);
-                inExpense = new ExpenseCalculator();
 
                 try {
-                    inExpense.addExpense(localExpense, userName);
+                    ExpenseRepository.saveExpense(localExpense, userName);
                 } catch (Exception e) {
                     return 1;
                 }
@@ -97,13 +96,11 @@ public class FileTransfer {
                 }
 
                 Wage localWage = null;
-                ExpenseCalculator inIncome = null;
 
                 localWage = new Wage(amount, source, date);
-                inIncome = new ExpenseCalculator();
 
                 try {
-                    inIncome.addMonthlyIncome(localWage, username);
+                    WageRepository.saveWage(localWage, username);
                 } catch (Exception e) {
                     return 1;
                 }
