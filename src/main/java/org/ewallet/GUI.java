@@ -333,7 +333,7 @@ public class GUI extends JFrame {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "USD", "CAD" }));
 		comboBox.setToolTipText("");
 		comboBox.setBounds(819, 16, 29, 21);
-		comboBox.setSize(60, 25);
+		comboBox.setSize(65, 25);
 		contentPane.add(comboBox);
 
 		// comboBox.addActionListener(new ActionListener() {
