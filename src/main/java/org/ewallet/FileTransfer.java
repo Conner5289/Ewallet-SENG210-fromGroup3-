@@ -113,4 +113,12 @@ public class FileTransfer {
         return 0;
     }
 
+    public void exportIncome() {
+
+    }
+
+    public void exportExpense() {
+
+    }
+
 }
