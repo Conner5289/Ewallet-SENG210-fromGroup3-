@@ -493,9 +493,9 @@ public class GUI extends JFrame {
 		if (retrunVal == JFileChooser.APPROVE_OPTION) {
 			int runCode = 1;
 			if (expenseIncomeOrAll.equals("expense")) {
-				runCode = outFile.exportExpense(selectedFile);
+				runCode = outFile.exportExpense(selectedFile, expenseC.getUserAtHand().getUsername());
 			} else if (expenseIncomeOrAll.equals("income")) {
-				runCode = outFile.exportIncome(selectedFile);
+				runCode = outFile.exportIncome(selectedFile, expenseC.getUserAtHand().getUsername());
 			} else {
 				JOptionPane.showMessageDialog(contentPane, "No opration was selected", "Warning",
 						JOptionPane.WARNING_MESSAGE);

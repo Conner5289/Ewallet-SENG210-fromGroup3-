@@ -7,8 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.google.protobuf.Field;
+import java.util.List;
 
 public class FileTransfer {
     public int importExpense(String filePath) {
@@ -116,19 +115,67 @@ public class FileTransfer {
         return 0;
     }
 
-    public int exportExpense(File filePath) {
+    public int exportExpense(File filePath, String user) {
 
         if (!filePath.getName().endsWith(".csv")) {
             filePath = new File(filePath + ".csv");
         }
 
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            List<Expense> loaclArray = ExpenseRepository.queryExpenseByUsername(user);
+
+            for (int i = 0; i < loaclArray.size(); i++) {
+
+                Expense loaclExpense = loaclArray.get(i);
+
+                double amount = loaclExpense.getAmount();
+                Date date = loaclExpense.getDate();
+                int yearFrequency = loaclExpense.getYearlyFrequency();
+
+                SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+                String stringDate = formatter.format(date);
+
+                writer.write(user + "," + amount + "," + stringDate + "," + yearFrequency + "\n");
+
+            }
+            writer.close();
+
+        } catch (Exception e) {
+            return 1;
+        }
+
         return 0;
     }
 
-    public int exportIncome(File filePath) {
+    public int exportIncome(File filePath, String user) {
 
         if (!filePath.getName().endsWith(".csv")) {
             filePath = new File(filePath + ".csv");
+        }
+
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            List<Wage> loaclArray = WageRepository.queryWageByUsername(user);
+
+            for (int i = 0; i < loaclArray.size(); i++) {
+
+                Wage loaclExpense = loaclArray.get(i);
+
+                double amount = loaclExpense.getAmount();
+                String source = loaclExpense.getSource();
+                Date date = loaclExpense.getDate();
+
+                SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+                String stringDate = formatter.format(date);
+
+                writer.write(user + "," + amount + "," + stringDate + "," + source + "\n");
+
+            }
+            writer.close();
+
+        } catch (Exception e) {
+            return 1;
         }
 
         return 0;
