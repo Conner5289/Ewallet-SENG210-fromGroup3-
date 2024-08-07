@@ -295,7 +295,7 @@ public class ExpenseCalculator implements IExpenseCalculator {
                 totalExpenses += expense.getAmount();
 
             } else {
-
+            	// Calculate the number of days between expenses
                 int numOfDaysBetweenExpense = daysInAYear / expense.getYearlyFrequency();
 
                 // We need to convert the date variable to a local date one
@@ -308,7 +308,7 @@ public class ExpenseCalculator implements IExpenseCalculator {
 
                 // Calculate the number of days between the two dates
                 int daysElapseSinceInitalExpense = (int) ChronoUnit.DAYS.between(date, todayDate);
-
+                // Calculate the number of payments made since the start of the expense
                 int numOfPaymentsMade = daysElapseSinceInitalExpense / numOfDaysBetweenExpense;
 
                 totalExpenses += (numOfPaymentsMade * expense.getAmount());

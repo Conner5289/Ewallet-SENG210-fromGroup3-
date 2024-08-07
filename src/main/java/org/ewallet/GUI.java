@@ -35,11 +35,12 @@ public class GUI extends JFrame {
 	private JTextField txtAmountIncome;
 	private JTextField txtUsername;
 	private JTextField txtPassword;
-	private JTextField txtAmountExpence;
+
 
 	private IExpenseCalculator expenseC = new ExpenseCalculator();
 	private Date selectedDateIncome = null;
 	private Date selectedDateExpense = null;
+	private JTextField textWCIB;
 
 	/**
 	 * Launch the application.
@@ -174,10 +175,10 @@ public class GUI extends JFrame {
 		lblAmount.setBounds(82, 254, 124, 33);
 		contentPane.add(lblAmount);
 
-		txtAmountExpence = new JTextField();
-		txtAmountExpence.setColumns(10);
-		txtAmountExpence.setBounds(202, 252, 147, 38);
-		contentPane.add(txtAmountExpence);
+		txtAmountExpense = new JTextField();
+		txtAmountExpense.setColumns(10);
+		txtAmountExpense.setBounds(202, 252, 147, 38);
+		contentPane.add(txtAmountExpense);
 
 		JLabel lblAmount_2 = new JLabel("Yearly Frequency:");
 		lblAmount_2.setBounds(82, 308, 124, 33);
@@ -367,37 +368,37 @@ public class GUI extends JFrame {
 		lblCurrency.setBounds(702, 10, 124, 33);
 		contentPane.add(lblCurrency);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(1117, 20, 292, 533);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel loginPanel = new JPanel();
+		loginPanel.setBounds(1117, 20, 292, 533);
+		contentPane.add(loginPanel);
+		loginPanel.setLayout(null);
 
 		JLabel lblLogin = new JLabel("Login");
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblLogin.setBounds(91, 118, 107, 40);
-		panel.add(lblLogin);
+		loginPanel.add(lblLogin);
 
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblUsername.setBounds(106, 217, 78, 40);
-		panel.add(lblUsername);
+		loginPanel.add(lblUsername);
 
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblPassword.setBounds(106, 326, 78, 40);
-		panel.add(lblPassword);
+		loginPanel.add(lblPassword);
 
 		txtUsername = new JTextField();
 		txtUsername.setBounds(26, 271, 239, 38);
-		panel.add(txtUsername);
+		loginPanel.add(txtUsername);
 		txtUsername.setColumns(10);
 
 		txtPassword = new JTextField();
 		txtPassword.setBounds(26, 380, 239, 38);
-		panel.add(txtPassword);
+		loginPanel.add(txtPassword);
 		txtPassword.setColumns(10);
 
 		JButton btnLogin = new JButton("Login");
@@ -413,7 +414,7 @@ public class GUI extends JFrame {
 			}
 		});
 		btnLogin.setBounds(78, 435, 135, 33);
-		panel.add(btnLogin);
+		loginPanel.add(btnLogin);
 
 		JLabel lblAmount_2_2 = new JLabel("Start Date:");
 		lblAmount_2_2.setBounds(82, 376, 115, 33);
@@ -422,6 +423,44 @@ public class GUI extends JFrame {
 		JLabel lblAmount_2_2_1 = new JLabel("Date:");
 		lblAmount_2_2_1.setBounds(415, 376, 105, 33);
 		contentPane.add(lblAmount_2_2_1);
+		
+		JLabel lblWhenCanI = new JLabel("When Can I buy:");
+		lblWhenCanI.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWhenCanI.setBounds(943, 415, 135, 33);
+		contentPane.add(lblWhenCanI);
+		
+		JLabel lblAmount_3_1 = new JLabel("Item Cost:");
+		lblAmount_3_1.setBounds(890, 448, 124, 33);
+		contentPane.add(lblAmount_3_1);
+		
+		textWCIB = new JTextField();
+		textWCIB.setColumns(10);
+		textWCIB.setBounds(943, 445, 147, 38);
+		contentPane.add(textWCIB);
+		
+		JButton btnWCIBSummit = new JButton("Summit");
+		btnWCIBSummit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				double amountWCIB = 0;
+				
+				try {
+					amountWCIB = Double.parseDouble(textWCIB.getText());
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(contentPane,
+							"Invalid input. Please enter a valid amount for Item.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				String CurrentUser = expenseC.getUserAtHand().getUsername();
+				
+				int months = expenseC.whenCanIBuy(amountWCIB, CurrentUser);
+				
+				JOptionPane.showMessageDialog(contentPane, "You will be able to buy the item in " + months + " months.");
+			}
+		});
+		btnWCIBSummit.setBounds(965, 491, 105, 33);
+		contentPane.add(btnWCIBSummit);
 	}
 
 	public void fileChooser(String expenseOrIncome) {
@@ -519,5 +558,4 @@ public class GUI extends JFrame {
 		}
 
 	}
-
 }
