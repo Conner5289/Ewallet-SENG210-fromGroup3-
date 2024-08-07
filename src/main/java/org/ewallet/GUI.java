@@ -35,8 +35,6 @@ public class GUI extends JFrame {
 	private JTextField txtUsername;
 	private JTextField txtPassword;
 	private JTextField txtAmountExpence;
-	private JTextField txtSourceExpence;
-	private JTextField txtMonthIcome;
 
 	private IExpenseCalculator expenseC = new ExpenseCalculator();
 	private Date selectedDateIncome = null;
@@ -185,15 +183,6 @@ public class GUI extends JFrame {
 		txtAmountExpence.setBounds(202, 252, 147, 38);
 		contentPane.add(txtAmountExpence);
 
-		JLabel lblAmount_1 = new JLabel("Source:");
-		lblAmount_1.setBounds(82, 311, 124, 33);
-		contentPane.add(lblAmount_1);
-
-		txtSourceExpence = new JTextField();
-		txtSourceExpence.setColumns(10);
-		txtSourceExpence.setBounds(202, 309, 147, 38);
-		contentPane.add(txtSourceExpence);
-
 		JLabel lblAmount_2 = new JLabel("Yearly Frequency:");
 		lblAmount_2.setBounds(82, 308, 124, 33);
 		contentPane.add(lblAmount_2);
@@ -202,15 +191,6 @@ public class GUI extends JFrame {
 		txtYearlyFrequency.setColumns(10);
 		txtYearlyFrequency.setBounds(202, 306, 147, 38);
 		contentPane.add(txtYearlyFrequency);
-
-		JLabel lblAmount_2_1 = new JLabel("Month:");
-		lblAmount_2_1.setBounds(415, 376, 124, 33);
-		contentPane.add(lblAmount_2_1);
-
-		txtMonthIcome = new JTextField();
-		txtMonthIcome.setColumns(10);
-		txtMonthIcome.setBounds(535, 374, 147, 38);
-		contentPane.add(txtMonthIcome);
 
 		JLabel lblAmount_1_1 = new JLabel("Source:");
 		lblAmount_1_1.setBounds(415, 308, 124, 33);
