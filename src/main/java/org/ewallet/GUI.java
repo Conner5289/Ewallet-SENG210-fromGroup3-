@@ -383,6 +383,7 @@ public class GUI extends JFrame {
 		contentPane.add(lblCurrency);
 
 		JPanel panel = new JPanel();
+		panel.setBounds(1117, 20, 292, 533);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -458,13 +459,16 @@ public class GUI extends JFrame {
 				int runCode = transfer.importExpense(selectedFile.getAbsolutePath());
 
 				if (runCode == 0) {
-					JOptionPane.showMessageDialog(contentPane, "Expense file has been uploaded!", "Transfer",
+					JOptionPane.showMessageDialog(contentPane, "Expense file has been uploaded!",
+							"Transfer",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else if (runCode == 1) {
-					JOptionPane.showMessageDialog(contentPane, "Expense file has been not been uploaded", "Warning",
+					JOptionPane.showMessageDialog(contentPane,
+							"Expense file has been not been uploaded", "Warning",
 							JOptionPane.WARNING_MESSAGE);
 				} else if (runCode == 2) {
-					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format", "Warning",
+					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format",
+							"Warning",
 							JOptionPane.WARNING_MESSAGE);
 				}
 			}
@@ -473,13 +477,16 @@ public class GUI extends JFrame {
 				int runCode = transfer.importIncome(selectedFile.getAbsolutePath());
 
 				if (runCode == 0) {
-					JOptionPane.showMessageDialog(contentPane, "Income file has been uploaded!", "Transfer",
+					JOptionPane.showMessageDialog(contentPane, "Income file has been uploaded!",
+							"Transfer",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else if (runCode == 1) {
-					JOptionPane.showMessageDialog(contentPane, "Income file has been NOT been uploaded", "Warning",
+					JOptionPane.showMessageDialog(contentPane,
+							"Income file has been NOT been uploaded", "Warning",
 							JOptionPane.WARNING_MESSAGE);
 				} else if (runCode == 2) {
-					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format", "Warning",
+					JOptionPane.showMessageDialog(contentPane, "Bad input file, Plase check format",
+							"Warning",
 							JOptionPane.WARNING_MESSAGE);
 
 				}
